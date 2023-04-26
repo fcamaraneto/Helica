@@ -47,9 +47,11 @@ add_logo()
 #st.sidebar.image('dnv_logo.jpg', width=150)
 
 
+st.markdown('# Helica Multiphysics')
+
+st.markdown('')
 
 st.header("Umbilical, cable and flexible pipe analysis")
-
 
 
 with st.sidebar.container(): 
