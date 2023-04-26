@@ -397,30 +397,3 @@ with tab3:
 
 
 
-
-''
-''
-''
-''
-''
-''
-''
-''
-''
-''
-''
-''
-''
-''
-col1, col2, col3 = st.columns([.225, 1, .1])
-with col1:
-    image = Image.open('eu_logo.jpg')
-    st.image(image, width=100) #, caption='Wire Arrangement'
-
-with col2:
-    'This project has received funding from the European Union’s Horizon ' \
-    '2020 research and innovation programme under the Marie Skłodowska-Curie ' \
-    'grant agreement No 101031088.'
-
-with col3:
-    ''
