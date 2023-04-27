@@ -106,9 +106,8 @@ st.markdown("""
 
 
 
-st.markdown('### Learn more about Helica software')
-
-#Project description at [CORDIS database](https://www.dnv.com/services/umbilical-analysis-and-flexible-pipe-analysis-helica-69553)
+st.markdown('#### Learn more about [Helica software](https://www.dnv.com/services/umbilical-analysis-and-flexible-pipe-analysis-helica-69553)')
+st.markdown('Have a look at our brochure, videos and other information')
 
 
 #st.markdown('## Key features:')
