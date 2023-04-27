@@ -72,7 +72,7 @@ st.markdown('The Universal Cable Constants (UCC) aims at providing a computation
 def get_data():
     return pd.DataFrame(np.random.randn(30, 3), columns=["Single_Core", "b", "c"])
 
-tab1, tab2, tab3 = st.tabs(["🖥️ Cable Data", "📊 Cable Parameters", "🗂️ Export Parameters"])
+tab1, tab2, tab3 = st.tabs(["🖥️ Cable Data", "📊 Cable Rating", "🗂️ Export Data"])
 
 
 with tab1:
