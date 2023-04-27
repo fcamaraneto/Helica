@@ -61,8 +61,8 @@ tab1, tab2, tab3 = st.tabs(["🖥️ Cable Data", "📊 Cable Rating", "🗂️ 
 
 
 with tab1:
-    cable2 = st.selectbox("Select Cable Type",
-                       options=["Single Core", "Three Core", "Pipe Type"])
+    #cable2 = st.selectbox("Select Cable Type",
+    #                   options=["Single Core", "Three Core", "Pipe Type"])
 
     col1, col2, col3 = st.columns([1, 3, 1])
     with col1:
