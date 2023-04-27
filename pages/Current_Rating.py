@@ -64,7 +64,7 @@ with tab1:
     cable2 = st.selectbox("Select Cable Type",
                        options=["Single Core", "Three Core", "Pipe Type"])
 
-    col1, col2, col3 = st.columns([1, 2, 1])
+    col1, col2, col3 = st.columns([1, 3, 1])
     with col1:
         ''
     with col2:
