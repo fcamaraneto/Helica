@@ -47,11 +47,9 @@ add_logo()
 #st.sidebar.image('dnv_logo.jpg', width=150)
 
 
-st.markdown('# HELICA Multiphysics')
-
-st.markdown('')
 
 st.header("Umbilical, cable and flexible pipe analysis")
+
 
 
 with st.sidebar.container(): 
@@ -108,6 +106,7 @@ st.markdown("""
 
 
 
+st.markdown('### Learn more about Helica software')
 
 #Project description at [CORDIS database](https://www.dnv.com/services/umbilical-analysis-and-flexible-pipe-analysis-helica-69553)
 
