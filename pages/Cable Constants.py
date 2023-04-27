@@ -42,6 +42,29 @@ def add_logo():
         unsafe_allow_html=True,
     )
 
+    
+    
+url='https://i.postimg.cc/NjhVmdYR/helica-logo.png'
+
+st.markdown(
+        f"""
+        <style>
+            [data-testid="stSidebarNav"] + div {{
+                position:relative;
+                bottom: 0;
+                height:65%;
+                background-image: url({url});
+                background-size: 40% auto;
+                background-repeat: no-repeat;
+                background-position-x: center;
+                background-position-y: bottom;
+            }}
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+    
+    
 # '📊 📉 📈 📧 🗂️ 📂 📈  🖥️🗄️  '
 
 add_logo()
