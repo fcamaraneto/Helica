@@ -121,12 +121,16 @@ with tab1:
                       x0=-1.5, y0=-1.5, x1=1.5, y1=1.5,
                       line_color="LightSeaGreen");
 
-        fig.update_layout(width=600, height=600)
+        fig.update_layout(width=400, height=400.0)
         fig.update_xaxes(range=[-5, 5], zeroline=False)
         fig.update_yaxes(range=[-5, 5])
 
         fig.update_xaxes(visible= False,mirror=True, ticks='outside', showline=True, linecolor='black', gridcolor='white')
         fig.update_yaxes(visible= False,mirror=True, ticks='outside', showline=True, linecolor='black', gridcolor='white')
+
+        fig.update_layout(
+            paper_bgcolor='rgba(0,0,0,0)',
+            plot_bgcolor='rgba(0,0,0,0)')
 
         st.plotly_chart(fig)
 
