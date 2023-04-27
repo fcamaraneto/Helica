@@ -44,8 +44,28 @@ def add_logo():
     )
 add_logo()
 
-#st.sidebar.image('dnv_logo.jpg', width=150)
 
+url='https://i.postimg.cc/NjhVmdYR/helica-logo.png'
+
+st.markdown(
+        f"""
+        <style>
+            [data-testid="stSidebarNav"] + div {{
+                position:relative;
+                bottom: 0;
+                height:65%;
+                background-image: url({url});
+                background-size: 40% auto;
+                background-repeat: no-repeat;
+                background-position-x: center;
+                background-position-y: bottom;
+            }}
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+#st.sidebar.image('dnv_logo.jpg', width=150)
 
 
 st.header("Umbilical, cable and flexible pipe analysis")
