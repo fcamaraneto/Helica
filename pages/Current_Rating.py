@@ -121,7 +121,7 @@ with tab1:
                       x0=-1.5, y0=-1.5, x1=1.5, y1=1.5,
                       line_color="LightSeaGreen");
 
-        fig.update_layout(width=400, height=400.0)
+        fig.update_layout(width=600, height=600)
         fig.update_xaxes(range=[-5, 5], zeroline=False)
         fig.update_yaxes(range=[-5, 5])
 
@@ -174,15 +174,15 @@ with tab2:
 
 
 with tab3:
-    st.subheader('Interfacing with circuit solvers')
-    st.markdown(' Interfacing with circuit solvers contains matlab scripts which demonstrate'
-            ' how to interface rational function-based models with time domain circuit solvers '
-            'via a Norton equivalent. The procedure is shown for models representing '
-            'Y-parameters, Z-parameters, S-parameters, and general transfer functions that '
-            'do not interact with the circuit.')
+    #st.subheader('Interfacing with circuit solvers')
+    #st.markdown(' Interfacing with circuit solvers contains matlab scripts which demonstrate'
+    #        ' how to interface rational function-based models with time domain circuit solvers '
+    #        'via a Norton equivalent. The procedure is shown for models representing '
+    #        'Y-parameters, Z-parameters, S-parameters, and general transfer functions that '
+    #        'do not interact with the circuit.')
 
-    col = st.selectbox("Select Software:",
-                       options=["PSCAD", "EMTP", "PowerFactory", "ATP"])
+    #col = st.selectbox("Select Software:",
+    #                   options=["PSCAD", "EMTP", "PowerFactory", "ATP"])
 
     import time
     localtime = time.asctime(time.localtime(time.time()))
