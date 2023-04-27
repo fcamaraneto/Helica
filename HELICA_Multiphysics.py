@@ -68,6 +68,7 @@ st.markdown(
 #st.sidebar.image('dnv_logo.jpg', width=150)
 
 
+st.header("HELICA Software")
 st.header("Umbilical, cable and flexible pipe analysis")
 
 
