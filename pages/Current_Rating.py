@@ -42,6 +42,26 @@ def add_logo():
         unsafe_allow_html=True,
     )
 
+url='https://i.postimg.cc/NjhVmdYR/helica-logo.png'
+
+st.markdown(
+        f"""
+        <style>
+            [data-testid="stSidebarNav"] + div {{
+                position:relative;
+                bottom: 0;
+                height:65%;
+                background-image: url({url});
+                background-size: 40% auto;
+                background-repeat: no-repeat;
+                background-position-x: center;
+                background-position-y: bottom;
+            }}
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
 # '📊 📉 📈 📧 🗂️ 📂 📈  🖥️🗄️  '
 
 add_logo()
@@ -61,8 +81,28 @@ tab1, tab2, tab3 = st.tabs(["🖥️ Cable Data", "📊 Cable Rating", "🗂️ 
 
 
 with tab1:
-    #cable2 = st.selectbox("Select Cable Type",
-    #                   options=["Single Core", "Three Core", "Pipe Type"])
+    cable2 = st.selectbox("Select Cable Type",
+                       options=["Single Core", "Three Core", "Pipe Type"])
+
+    col1, col2, col3 = st.columns([1, 1, 1])
+    with col1:
+        st.write("")
+        radius1 = st.number_input('R1 [mm]', format="%f", value=10., step=1., min_value=.001)
+        radius2 = st.number_input('R2 [mm]', format="%f", value=20., step=1., min_value=.001)
+        radius3 = st.number_input('R3 [mm]', format="%f", value=25., step=1., min_value=.001)
+
+    with col2:
+        st.write("")
+        radius4 = st.number_input('R4 [mm]', format="%f", value=30., step=1., min_value=.001)
+        radius5 = st.number_input('R5 [mm]', format="%f", value=40., step=1., min_value=.001)
+        radius6 = st.number_input('R6 [mm]', format="%f", value=50., step=1., min_value=.001)
+
+    with col3:
+        st.write("")
+        rc = st.number_input('Rcore [mm]', format="%f", value=1., step=1., min_value=.001)
+        rs = st.number_input('Rsheath [mm]', format="%f", value=1., step=1., min_value=.001)
+        ra = st.number_input('Rarmour [mm]', format="%f", value=1., step=1., min_value=.001)
+
 
     col1, col2, col3 = st.columns([1, 8, 1])
     with col1:
@@ -139,17 +179,87 @@ with tab1:
         st.plotly_chart(fig)
 
 
+
+        rs = 0.2
+        ra = 0.2
+        n = 60
+        ns = 40
+        theta = 360 / n
+        theta_s = 360 / ns
+
+        outer = 4
+        outs = 2.75
+
+        x = [outer * np.cos(i * (theta * np.pi / 180)) for i in range(0, n)]
+        y = [outer * np.sin(i * (theta * np.pi / 180)) for i in range(0, n)]
+
+        xs = [outs * np.cos(i * (theta_s * np.pi / 180)) for i in range(0, ns)]
+        ys = [outs * np.sin(i * (theta_s * np.pi / 180)) for i in range(0, ns)]
+
+        # Add circles
+        fig = go.Figure()
+
+        for i in range(ns):
+            fig.add_shape(type="circle",
+                          x0=xs[i] - rs, y0=ys[i] - rs, x1=xs[i] + rs, y1=ys[i] + rs,
+                          line_color="LightSeaGreen")
+
+        for i in range(n):
+            fig.add_shape(type="circle",
+                          x0=x[i] - ra, y0=y[i] - ra, x1=x[i] + ra, y1=y[i] + ra,
+                          line_color="LightSeaGreen")
+
+        fig.add_shape(type="circle",
+                      x0=-outer - 2 * ra, y0=-outer - 2 * ra, x1=outer + 2 * ra, y1=outer + 2 * ra,
+                      line_color="LightSeaGreen");
+
+        fig.add_shape(type="circle",
+                      x0=-outer - 1 * ra, y0=-outer - 1 * ra, x1=outer + 1 * ra, y1=outer + 1 * ra,
+                      line_color="LightSeaGreen");
+
+        fig.add_shape(type="circle",
+                      x0=-outer + 1 * ra, y0=-outer + 1 * ra, x1=outer - 1 * ra, y1=outer - 1 * ra,
+                      line_color="LightSeaGreen");
+
+        fig.add_shape(type="circle",
+                      x0=-outs + rs, y0=-outs + rs, x1=outs - rs, y1=outs - rs,
+                      line_color="LightSeaGreen");
+
+        fig.add_shape(type="circle",
+                      x0=-outs - rs, y0=-outs - rs, x1=outs + rs, y1=outs + rs,
+                      line_color="LightSeaGreen")
+
+        fig.add_shape(type="circle",
+                      xref="x", yref="y",
+                      fillcolor="PaleTurquoise",
+                      x0=-1.5, y0=-1.5, x1=1.5, y1=1.5,
+                      line_color="LightSeaGreen");
+
+        fig.update_layout(width=450, height=450)
+        fig.update_xaxes(range=[-5, 5], zeroline=False)
+        fig.update_yaxes(range=[-5, 5])
+
+        fig.update_xaxes(visible=False, mirror=True, ticks='outside', showline=True, linecolor='black',
+                         gridcolor='white')
+        fig.update_yaxes(visible=False, mirror=True, ticks='outside', showline=True, linecolor='black',
+                         gridcolor='white')
+
+        fig.update_layout(
+            paper_bgcolor='rgba(0,0,0,0)',
+            plot_bgcolor='rgba(0,0,0,0)')
+
+        fig.update_layout(
+            margin=dict(l=20, r=20, t=20, b=20),
+        )
+
+        st.plotly_chart(fig)
+
+
     with col3:
         ''
 
 
-    ### Cross-section
-    #fig2 = px.line(df2, log_x=True, log_y=True)
-    #fig2.update_xaxes(title_text="Frequency (Hz)")
-    #fig2.update_yaxes(title_text="Resistance (Ω)")
-    #fig2.update_layout(legend_title="R (Ω)")
-    #fig2.update_xaxes(exponentformat="SI")
-    #fig2.update_yaxes(exponentformat="e")  # "SI"
+
 
 
 
