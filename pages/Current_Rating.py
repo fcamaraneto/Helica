@@ -121,7 +121,7 @@ with tab1:
                       x0=-1.5, y0=-1.5, x1=1.5, y1=1.5,
                       line_color="LightSeaGreen");
 
-        fig.update_layout(width=600, height=600)
+        fig.update_layout(width=450, height=450)
         fig.update_xaxes(range=[-5, 5], zeroline=False)
         fig.update_yaxes(range=[-5, 5])
 
