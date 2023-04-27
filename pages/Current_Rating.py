@@ -133,7 +133,7 @@ with tab1:
             plot_bgcolor='rgba(0,0,0,0)')
         
         fig.update_layout(
-            margin=dict(l=20, r=20, t=20, b=20),
+            margin=dict(l=20, r=50, t=20, b=20),
         )
 
         st.plotly_chart(fig)
