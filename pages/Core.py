@@ -80,30 +80,6 @@ def get_data():
 tab1, tab2, tab3 = st.tabs(["🖥️ Cable Data", "📊 Cable Rating", "🗂️ Export Results"])
 
 
-with tab1:
-    cable2 = st.selectbox("Select Cable Type",
-                       options=["Single Core", "Three Core", "Pipe Type"])
-
-    col1, col2, col3 = st.columns([1, 1, 1])
-    with col1:
-        st.write("")
-        radius1 = st.number_input('R1 [mm]', format="%f", value=10., step=1., min_value=.001)
-        radius2 = st.number_input('R2 [mm]', format="%f", value=20., step=1., min_value=.001)
-        radius3 = st.number_input('R3 [mm]', format="%f", value=25., step=1., min_value=.001)
-
-    with col2:
-        st.write("")
-        radius4 = st.number_input('R4 [mm]', format="%f", value=30., step=1., min_value=.001)
-        radius5 = st.number_input('R5 [mm]', format="%f", value=40., step=1., min_value=.001)
-        radius6 = st.number_input('R6 [mm]', format="%f", value=50., step=1., min_value=.001)
-
-    with col3:
-        st.write("")
-        rc = st.number_input('Rcore [mm]', format="%f", value=1., step=1., min_value=.001)
-        rs = st.number_input('Rsheath [mm]', format="%f", value=1., step=1., min_value=.001)
-        ra = st.number_input('Rarmour [mm]', format="%f", value=1., step=1., min_value=.001)
-
-
     col1, col2, col3 = st.columns([1, 8, 1])
     with col1:
         ''
@@ -143,6 +119,29 @@ with tab1:
                 'Rsheath: sheath conductor radius.'
                 'Rarmour: armour conductor radius.'
 
+    with tab1:
+    cable2 = st.selectbox("Select Cable Type",
+                       options=["Single Core", "Three Core", "Pipe Type"])
+
+    col1, col2, col3 = st.columns([1, 1, 1])
+    with col1:
+        st.write("")
+        radius1 = st.number_input('R1 [mm]', format="%f", value=10., step=1., min_value=.001)
+        radius2 = st.number_input('R2 [mm]', format="%f", value=20., step=1., min_value=.001)
+        radius3 = st.number_input('R3 [mm]', format="%f", value=25., step=1., min_value=.001)
+
+    with col2:
+        st.write("")
+        radius4 = st.number_input('R4 [mm]', format="%f", value=30., step=1., min_value=.001)
+        radius5 = st.number_input('R5 [mm]', format="%f", value=40., step=1., min_value=.001)
+        radius6 = st.number_input('R6 [mm]', format="%f", value=50., step=1., min_value=.001)
+
+    with col3:
+        st.write("")
+        rc = st.number_input('Rcore [mm]', format="%f", value=1., step=1., min_value=.001)
+        rs = st.number_input('Rsheath [mm]', format="%f", value=1., step=1., min_value=.001)
+        ra = st.number_input('Rarmour [mm]', format="%f", value=1., step=1., min_value=.001)
+        
         
         outc = 1.1 + 1.e-5
         outs = 2.75
