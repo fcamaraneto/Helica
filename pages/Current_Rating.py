@@ -299,8 +299,9 @@ with tab1:
 
 
         fig.update_layout(width=450, height=450)
-        fig.update_xaxes(range=[-1, 1], zeroline=False)
-        fig.update_yaxes(range=[-1, 1])
+        fig.update_xaxes(range=[-5, 5], zeroline=False)
+        fig.update_yaxes(range=[-5, 5])
+        
         st.plotly_chart(fig)
 
 
