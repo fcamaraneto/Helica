@@ -79,7 +79,7 @@ def get_data():
 
 tab1, tab2, tab3 = st.tabs(["🖥️ Cable Data", "📊 Cable Rating", "🗂️ Export Results"])
 
-
+with tab1:
     col1, col2, col3 = st.columns([1, 8, 1])
     with col1:
         ''
