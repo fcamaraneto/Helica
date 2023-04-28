@@ -253,6 +253,55 @@ with tab1:
         )
 
         st.plotly_chart(fig)
+        
+        
+        
+        
+        outc=0.7 + 1.e-5
+        outs = 2.75
+        outer = 4
+
+        rc = 0.1
+        rs = 0.1
+        ra = 0.2
+
+
+        if outc == rc:
+            nc=1
+        else:
+            layers=int(np.floor(outc/rc- np.floor(0.5*outc/rc)))
+            nc= np.zeros(layers)
+            nc=[1] + [(i*6) for i in range(1, layers+1)]
+            theta_c = [0] + [(360/nc[i]) for i in range(1, layers+1)]
+            R1c = [2*rc*i for i in range(0, layers+1)]
+
+
+        xc= np.zeros(sum(nc),dtype='float32')
+        yc= np.zeros(sum(nc),dtype='float32')
+
+        for k in range(0, layers+1):
+
+            a = sum(nc[0:k])
+            b = sum(nc[0:k + 1]) 
+
+            xc[a:b] = [R1c[k] * np.cos(i*(theta_c[k]*np.pi/180)) for i in range(1, nc[k]+1)]
+            yc[a:b] = [R1c[k] * np.sin(i*(theta_c[k]*np.pi/180)) for i in range(1, nc[k]+1)]
+
+        #print(xc)
+
+        fig = go.Figure()
+
+        for i in range(len(xc)):
+            fig.add_shape(type="circle",
+                          x0=xc[i] - rc, y0=yc[i] - rc, x1=xc[i] + rc, y1=yc[i] + rc,
+                          line_color="LightSeaGreen")
+
+
+
+        fig.update_layout(width=450, height=450)
+        fig.update_xaxes(range=[-1, 1], zeroline=False)
+        fig.update_yaxes(range=[-1, 1])
+        st.plotly_chart(fig)
 
 
     with col3:
