@@ -128,7 +128,7 @@ with tab1:
         ra = 0.3
 
 
-        n = 45
+        n = 40
         ns = 40
         theta = 360 / n
         theta_s = 360 / ns
