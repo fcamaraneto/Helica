@@ -94,30 +94,32 @@ tab1, tab2, tab3 = st.tabs(["🖥️ Cable Data", "📊 Cable Rating", "🗂️ 
         #    image = Image.open('pipe_type0.png')
         #    st.image(image, caption='Cross Section', width=250)
      
-        with st.expander('INTRUCTIONS'):
-            'CORE: For R1 > Rcore, the number of subconductors is estimated automatically.'
-            'SHEATH: For stranded sheath, specify the sheath outer radius R3 and the sheath conductor radius.'
-            'ARMOUR: For stranded armour, specify the armour outer radius R5 and the armour conductor radius.'
+    with st.expander('INTRUCTIONS'):
+        # with st.expander('Surface Admittance Operator'):
 
-            col1, col2, col3 = st.columns([1, 4, 1])
-            with col1:
-                ''
-            with col2:
-                st.image('cross.png', width=500, caption='Figure 1 - Cross-section parameters')
-            with col3:
-                ''
-            col1, col2 = st.columns([1, 1])
-            with col1:
-                'R1: core outer radius.'
-                'R2: sheath inner radius.'
-                'R3: sheath outer radius.'
-                'R4: armour inner radius.'
-                'R5: armour outer radius.'
-                'R6: "jacket" outer radius.'
-            with col2:
-                'Rcore: core conductor radius.'
-                'Rsheath: sheath conductor radius.'
-                'Rarmour: armour conductor radius.'
+        'CORE: For R1 > Rcore, the number of subconductors is estimated automatically.'
+        'SHEATH: For stranded sheath, specify the sheath outer radius R3 and the sheath conductor radius.'
+        'ARMOUR: For stranded armour, specify the armour outer radius R5 and the armour conductor radius.'
+
+        col1, col2, col3 = st.columns([1, 4, 1])
+        with col1:
+            ''
+        with col2:
+            st.image('cross.png', width=500, caption='Figure 1 - Cross-section parameters')
+        with col3:
+            ''
+        col1, col2 = st.columns([1, 1])
+        with col1:
+            'R1: core outer radius.'
+            'R2: sheath inner radius.'
+            'R3: sheath outer radius.'
+            'R4: armour inner radius.'
+            'R5: armour outer radius.'
+            'R6: "jacket" outer radius.'
+        with col2:
+            'Rcore: core conductor radius.'
+            'Rsheath: sheath conductor radius.'
+            'Rarmour: armour conductor radius.'
 
     with tab1:
     cable2 = st.selectbox("Select Cable Type",
