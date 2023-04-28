@@ -257,13 +257,19 @@ with tab1:
         
         
         
-        outc=0.7 + 1.e-5
+        outc = 1.1 + 1.e-5
         outs = 2.75
         outer = 4
 
         rc = 0.1
-        rs = 0.1
-        ra = 0.2
+        rs = 0.2
+        ra = 0.3
+
+
+        n = 45
+        ns = 40
+        theta = 360 / n
+        theta_s = 360 / ns
 
 
         if outc == rc:
@@ -287,20 +293,82 @@ with tab1:
             xc[a:b] = [R1c[k] * np.cos(i*(theta_c[k]*np.pi/180)) for i in range(1, nc[k]+1)]
             yc[a:b] = [R1c[k] * np.sin(i*(theta_c[k]*np.pi/180)) for i in range(1, nc[k]+1)]
 
-        #print(xc)
 
+        x = [outer * np.cos(i * (theta * np.pi / 180)) for i in range(0, n)]
+        y = [outer * np.sin(i * (theta * np.pi / 180)) for i in range(0, n)]
+
+        xs = [outs * np.cos(i * (theta_s * np.pi / 180)) for i in range(0, ns)]
+        ys = [outs * np.sin(i * (theta_s * np.pi / 180)) for i in range(0, ns)]
+
+
+        # PLOT circles
         fig = go.Figure()
 
+        #fig.add_shape(type="circle",
+        #              xref="x", yref="y", fillcolor="PaleTurquoise",
+        #              x0=-1.5, y0=-1.5, x1=1.5, y1=1.5,
+        #              line_color="LightSeaGreen");
+
+        # CORE
         for i in range(len(xc)):
             fig.add_shape(type="circle",
                           x0=xc[i] - rc, y0=yc[i] - rc, x1=xc[i] + rc, y1=yc[i] + rc,
                           line_color="LightSeaGreen")
+
+        fig.add_shape(type="circle",
+            x0=-outc-2*rc, y0=-outc-2*rc, x1=outc+2*rc, y1=outc+2*rc,
+            line_color="LightSeaGreen");
+
+
+        # SHEATH
+        for i in range(ns):
+            fig.add_shape(type="circle",
+            x0=xs[i] - rs, y0=ys[i] - rs, x1=xs[i] + rs, y1=ys[i] + rs,
+            line_color="LightSeaGreen")
+
+        fig.add_shape(type="circle",
+            x0=-outs+rs, y0=-outs+rs, x1=outs-rs, y1=outs-rs,
+            line_color="LightSeaGreen");
+
+        fig.add_shape(type="circle",
+            x0=-outs-rs, y0=-outs-rs, x1=outs+rs, y1=outs+rs,
+            line_color="LightSeaGreen")
+
+        # ARMOUT
+        for i in range(n):
+            fig.add_shape(type="circle",
+            x0=x[i] - ra, y0=y[i] - ra, x1=x[i] + ra, y1=y[i] + ra,
+            line_color="LightSeaGreen")
+
+        fig.add_shape(type="circle",
+                      x0=-outer - 2 * ra, y0=-outer - 2 * ra, x1=outer + 2 * ra, y1=outer + 2 * ra,
+                      line_color="LightSeaGreen");
+
+        fig.add_shape(type="circle",
+            x0=-outer - 1 * ra, y0=-outer - 1 * ra, x1=outer + 1 * ra, y1=outer + 1 * ra,
+            line_color="LightSeaGreen");
+
+        fig.add_shape(type="circle",
+            x0=-outer + 1 * ra, y0=-outer + 1 * ra, x1=outer - 1 * ra, y1=outer - 1 * ra,
+            line_color="LightSeaGreen");
+
 
 
 
         fig.update_layout(width=450, height=450)
         fig.update_xaxes(range=[-5, 5], zeroline=False)
         fig.update_yaxes(range=[-5, 5])
+
+        fig.update_xaxes(visible= False,mirror=True, ticks='outside', showline=True, linecolor='black', gridcolor='white')
+        fig.update_yaxes(visible= False,mirror=True, ticks='outside', showline=True, linecolor='black', gridcolor='white')
+
+        fig.update_layout(
+            paper_bgcolor='rgba(0,0,0,0)',
+            plot_bgcolor='rgba(0,0,0,0)')
+
+        fig.update_layout(
+            margin=dict(l=20, r=20, t=20, b=20),
+        )
         
         st.plotly_chart(fig)
 
