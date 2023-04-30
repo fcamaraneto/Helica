@@ -232,7 +232,7 @@ with tab1:
             radius6 = st.number_input('R6 [mm]', format="%f", value=4.2, step=.1, min_value=.001)
         with col3:
             st.write("")
-            rc = st.number_input('Rcore [mm]', format="%f", value=0.1, step=.1, min_value=.001)
+            rc = st.number_input('Rcore [mm]', format="%f", value=0.2, step=.1, min_value=.001)
             ra = st.number_input('Rarmour [mm]', format="%f", value=0.2, step=.1, min_value=.001)
 
         outc = radius1
