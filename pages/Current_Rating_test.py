@@ -404,7 +404,7 @@ with tab1:
         with col2:
             st.write("")
             radius4 = st.number_input('R4 [mm]', format="%.2f", value=3.5, step=.1, min_value=.001)
-            radius5 = st.number_input('R5 [mm]', format="%.2f", value=4.0, step=.1, min_value=.001)
+            radius5 = st.number_input('R5 [mm]', format="%.2f", value=8.0, step=.1, min_value=.001)
             radius6 = st.number_input('R6 [mm]', format="%.2f", value=4.2, step=.1, min_value=.001)
         with col3:
             st.write("")
@@ -556,7 +556,7 @@ with tab1:
         with col2:
             fig.update_layout(width=600, height=600)
             fig.update_xaxes(range=[-radius6*1.5,radius6*3])
-            fig.update_yaxes(range=[-radius6*1.5, radius6*3.])
+            fig.update_yaxes(range=[-radius6*1.5, radius6*2.5])
             #fig.update_xaxes(visible=False, mirror=True, ticks='outside', showline=True, linecolor='black', gridcolor='white')
             #fig.update_yaxes(visible=False, mirror=True, ticks='outside', showline=True, linecolor='black', gridcolor='white')
             #fig.update_layout(paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)')
