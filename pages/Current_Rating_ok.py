@@ -208,7 +208,7 @@ with tab1:
                       line_color="LightSeaGreen");
 
 
-        col1, col2, col3 = st.columns([1, 2, 1])
+        col1, col2, col3 = st.columns([1, 6, 1])
         with col1:
             ''
         with col2:
