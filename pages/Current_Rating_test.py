@@ -88,7 +88,7 @@ tab1, tab2, tab3 = st.tabs(["🖥️ Cable Data", "📊 Cable Rating", "🗂️ 
 with tab1:
     cable2 = st.selectbox("Select Cable Type",
                        options=["Single Core (stranded sheath)", "Single Core (tubular sheath)",
-                                "Three Core", "Pipe Type"])
+                                "Three Core (stranded sheath)", "Pipe Type"])
 
 
 #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
@@ -120,7 +120,7 @@ with tab1:
                 'Rsheath: sheath conductor radius.'
                 'Rarmour: armour conductor radius.'
 
-        col1, col2, col3 = st.columns([1, 1, 1])
+        col1, col2, col3, col4 = st.columns([1, 1, 1, 1])
         with col1:
             st.write("")
             radius1 = st.number_input('R1 [mm]', format="%.2f", value=1.00, step=.1, min_value=.001)
@@ -134,9 +134,12 @@ with tab1:
             rc = st.number_input('Rcore [mm]',   format="%.2f", value=0.2, step=.1, min_value=.001)
             rs = st.number_input('Rsheath [mm]', format="%.2f", value=0.2, step=.1, min_value=.001)
             ra = st.number_input('Rarmour [mm]', format="%.2f", value=0.2, step=.1, min_value=.001)
+        with col4:
+            st.write("")
+            ns = st.number_input('Nsheath [mm]',   value=40, step=1, min_value=1)
+            na = st.number_input('Narmour [mm]',   value=60, step=1, min_value=1)
 
-        ns = 40
-        na = 60
+
         theta_s = 360/ns
         theta_a = 360/na
         outc = radius1
@@ -224,10 +227,14 @@ with tab1:
             ''
 
         'Next enhancements:'
-        '1) Option for choosing the number of armour conductors?'
-        '2) Design a sanity check for R1>Rcore. ' \
+        '1) Double-check the Instructions.'
+        '3) Option for choosing the number of sheath conductors.'
+        '4) Option for choosing the number of armour conductors.'
+        '5) Design a sanity check for R5>R6.'
+        '6) Design a sanity check for R1>Rcore. ' \
         'If R1/Rcore is not an integer multiple, should R1 assume the lower or higher ratio?'
-        '3) Double-check the Instructions.'
+        '7) Double-layered armour.'
+#  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
 
 #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
 #  2- Single Core (tubular sheath)
@@ -258,7 +265,7 @@ with tab1:
                 'Rsheath: sheath conductor radius.'
                 'Rarmour: armour conductor radius.'
 
-        col1, col2, col3 = st.columns([1, 1, 1])
+        col1, col2, col3, col4 = st.columns([1, 1, 1, 1])
         with col1:
             st.write("")
             radius1 = st.number_input('R1 [mm]', format="%.2f", value=1.00, step=.1, min_value=.001)
@@ -272,9 +279,11 @@ with tab1:
             st.write("")
             rc = st.number_input('Rcore [mm]',   format="%.2f", value=0.2, step=.1, min_value=.001)
             ra = st.number_input('Rarmour [mm]', format="%.2f", value=0.2, step=.1, min_value=.001)
+        with col4:
+            st.write("")
+            na = st.number_input('Narmour [mm]',   value=60, step=1, min_value=1)
 
         outc = radius1
-        na = 60
         theta_a = 360/na
 
         if (outc == rc):
@@ -350,35 +359,76 @@ with tab1:
             ''
 
         'Next enhancements:'
-        '1) Option for choosing the number of armour conductors?'
-        '2) Design a sanity check for R1>Rcore. ' \
+        '1) Double-check the Instructions.'
+        '2) Option for choosing the number of armour conductors.'
+        '3) Design a sanity check for R5>R6.'
+        '4) Design a sanity check for R1>Rcore. ' \
         'If R1/Rcore is not an integer multiple, should R1 assume the lower or higher ratio?'
-        '3) Double-check the Instructions.'
+        '5) Double-layered armour.'
+#  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+
+#  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+#  3- Three Core (stranded sheath)
+#  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+    if cable2 == "Three Core (stranded sheath)":
+        with st.expander('INTRUCTIONS'):
+            'CORE: For R1 > Rcore, the number of subconductors is estimated automatically.'
+            'SHEATH: For stranded sheath, specify the sheath outer radius R3 and the sheath conductor radius.'
+            'ARMOUR: For stranded armour, specify the armour outer radius R5 and the armour conductor radius.'
+
+            col1, col2, col3 = st.columns([1, 4, 1])
+            with col1:
+                ''
+            with col2:
+                st.image('cross.png', width=500, caption='Figure 1 - Cross-section parameters')
+            with col3:
+                ''
+            col1, col2 = st.columns([1, 1])
+            with col1:
+                'R1: core outer radius.'
+                'R2: sheath inner radius.'
+                'R3: sheath outer radius.'
+                'R4: armour inner radius.'
+                'R5: armour outer radius.'
+                'R6: "jacket" outer radius.'
+            with col2:
+                'Rcore: core conductor radius.'
+                'Rsheath: sheath conductor radius.'
+                'Rarmour: armour conductor radius.'
+
+        col1, col2, col3, col4 = st.columns([1, 1, 1, 1])
+        with col1:
+            st.write("")
+            radius1 = st.number_input('R1 [mm]', format="%.2f", value=1.00, step=.1, min_value=.001)
+            radius3 = st.number_input('R3 [mm]', format="%.2f", value=2.75, step=.1, min_value=.001)
+        with col2:
+            st.write("")
+            radius5 = st.number_input('R5 [mm]', format="%.2f", value=4.0, step=.1, min_value=.001)
+            radius6 = st.number_input('R6 [mm]', format="%.2f", value=4.2, step=.1, min_value=.001)
+        with col3:
+            st.write("")
+            rc = st.number_input('Rcore [mm]',   format="%.2f", value=0.2, step=.1, min_value=.001)
+            rs = st.number_input('Rsheath [mm]', format="%.2f", value=0.2, step=.1, min_value=.001)
+            ra = st.number_input('Rarmour [mm]', format="%.2f", value=0.2, step=.1, min_value=.001)
+        with col4:
+            st.write("")
+            ns = st.number_input('Nsheath [mm]',   value=40, step=1, min_value=1)
+            na = st.number_input('Narmour [mm]',   value=60, step=1, min_value=1)
 
 
+        theta_s = 360/ns
+        theta_a = 360/na
+        outc = radius1
+        na = 60
+        theta_a = 360 / na
 
-# -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
-    if cable2 == "Three Core":
-        ''
-
-
-        outc = 1.1 + 1.e-5
-        outs = 2.75
-        outer = 4
-
-        rc = 0.1
-        rs = 0.2
-        ra = 0.3
-
-        n = 40
-        ns = 40
-        theta = 360 / n
-        theta_s = 360 / ns
-
-        if outc == rc:
-            nc = 1
+        if (outc == rc):
+            layers = 0
+            nc = [1]
+            theta_c = [0]
+            R1c = [0]
         else:
-            layers = int(np.floor(outc / rc - np.floor(0.5 * outc / rc)))
+            layers = int(np.floor(((outc + 1.e-5) / rc) - np.floor(0.5 * (outc + 1.e-5) / rc)) - 1)
             nc = np.zeros(layers)
             nc = [1] + [(i * 6) for i in range(1, layers + 1)]
             theta_c = [0] + [(360 / nc[i]) for i in range(1, layers + 1)]
@@ -394,103 +444,77 @@ with tab1:
             xc[a:b] = [R1c[k] * np.cos(i * (theta_c[k] * np.pi / 180)) for i in range(1, nc[k] + 1)]
             yc[a:b] = [R1c[k] * np.sin(i * (theta_c[k] * np.pi / 180)) for i in range(1, nc[k] + 1)]
 
-        x = [outer * np.cos(i * (theta * np.pi / 180)) for i in range(0, n)]
-        y = [outer * np.sin(i * (theta * np.pi / 180)) for i in range(0, n)]
+        xs = [radius3 * np.cos(i*(theta_s*np.pi/180)) for i in range(0, ns)]
+        ys = [radius3 * np.sin(i*(theta_s*np.pi/180)) for i in range(0, ns)]
+        xa = [radius5 * np.cos(i*(theta_a*np.pi/180)) for i in range(0, na)]
+        ya = [radius5 * np.sin(i*(theta_a*np.pi/180)) for i in range(0, na)]
 
-        xs = [outs * np.cos(i * (theta_s * np.pi / 180)) for i in range(0, ns)]
-        ys = [outs * np.sin(i * (theta_s * np.pi / 180)) for i in range(0, ns)]
-
-        # PLOT circles
+        # PLOT conductors
         fig = go.Figure()
-
-        # fig.add_shape(type="circle",
-        #              xref="x", yref="y", fillcolor="PaleTurquoise",
-        #              x0=-1.5, y0=-1.5, x1=1.5, y1=1.5,
-        #              line_color="LightSeaGreen");
-
-        # CORE
+        # core
         for i in range(len(xc)):
             fig.add_shape(type="circle",
                           x0=xc[i] - rc, y0=yc[i] - rc, x1=xc[i] + rc, y1=yc[i] + rc,
                           line_color="LightSeaGreen")
-
         fig.add_shape(type="circle",
-                      x0=-outc - 2 * rc, y0=-outc - 2 * rc, x1=outc + 2 * rc, y1=outc + 2 * rc,
-                      line_color="LightSeaGreen");
-
-        # SHEATH
+                      x0=-max(xc) - rc, y0=-max(xc) - rc, x1=max(xc) + rc, y1=max(xc) + rc,
+                      line_color="LightSeaGreen")
+        # sheath
         for i in range(ns):
             fig.add_shape(type="circle",
-                          x0=xs[i] - rs, y0=ys[i] - rs, x1=xs[i] + rs, y1=ys[i] + rs,
+                          x0= xs[i]-rs, y0= ys[i]-rs, x1= xs[i]+rs, y1= ys[i]+rs,
                           line_color="LightSeaGreen")
-
         fig.add_shape(type="circle",
-                      x0=-outs + rs, y0=-outs + rs, x1=outs - rs, y1=outs - rs,
+                      x0=-radius3+rs, y0=-radius3+rs, x1=radius3-rs, y1=radius3-rs,
                       line_color="LightSeaGreen");
-
         fig.add_shape(type="circle",
-                      x0=-outs - rs, y0=-outs - rs, x1=outs + rs, y1=outs + rs,
+                      x0=-radius3-rs, y0=-radius3-rs, x1=radius3+rs, y1=radius3+rs,
                       line_color="LightSeaGreen")
-
-        # ARMOUT
-        for i in range(n):
+        # armour
+        for i in range(na):
             fig.add_shape(type="circle",
-                          x0=x[i] - ra, y0=y[i] - ra, x1=x[i] + ra, y1=y[i] + ra,
+                          x0= xa[i]-ra, y0= ya[i]-ra, x1= xa[i]+ra, y1= ya[i]+ra,
                           line_color="LightSeaGreen")
-
         fig.add_shape(type="circle",
-                      x0=-outer - 2 * ra, y0=-outer - 2 * ra, x1=outer + 2 * ra, y1=outer + 2 * ra,
+                      x0= -radius5-ra, y0= -radius5-ra, x1= radius5+ra, y1= radius5+ra,
+                      line_color="LightSeaGreen");
+        fig.add_shape(type="circle",
+                      x0= -radius5+ra, y0= -radius5+ra, x1= radius5-ra, y1= radius5-ra,
+                      line_color="LightSeaGreen");
+        # jacket/server
+        fig.add_shape(type="circle",
+                      x0= -radius6-ra, y0= -radius6-ra, x1= radius6+ra, y1= radius6+ra,
                       line_color="LightSeaGreen");
 
-        fig.add_shape(type="circle",
-                      x0=-outer - 1 * ra, y0=-outer - 1 * ra, x1=outer + 1 * ra, y1=outer + 1 * ra,
-                      line_color="LightSeaGreen");
 
-        fig.add_shape(type="circle",
-                      x0=-outer + 1 * ra, y0=-outer + 1 * ra, x1=outer - 1 * ra, y1=outer - 1 * ra,
-                      line_color="LightSeaGreen");
+        col1, col2, col3 = st.columns([1, 4, 1])
+        with col1:
+            ''
+        with col2:
+            fig.update_layout(width=600, height=600)
+            fig.update_xaxes(range=[-radius6*1.2,radius6*1.2])
+            fig.update_yaxes(range=[-radius6*1.2, radius6*1.2])
+            fig.update_xaxes(visible=False, mirror=True, ticks='outside', showline=True, linecolor='black', gridcolor='white')
+            fig.update_yaxes(visible=False, mirror=True, ticks='outside', showline=True, linecolor='black', gridcolor='white')
+            fig.update_layout(paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)')
+            fig.update_layout(margin=dict(l=20, r=20, t=20, b=20))
+            st.plotly_chart(fig)
+        with col3:
+            ''
 
-        fig.update_layout(width=450, height=450)
-        fig.update_xaxes(range=[-5, 5], zeroline=False)
-        fig.update_yaxes(range=[-5, 5])
-
-        fig.update_xaxes(visible=False, mirror=True, ticks='outside', showline=True, linecolor='black',
-                         gridcolor='white')
-        fig.update_yaxes(visible=False, mirror=True, ticks='outside', showline=True, linecolor='black',
-                         gridcolor='white')
-
-        fig.update_layout(
-            paper_bgcolor='rgba(0,0,0,0)',
-            plot_bgcolor='rgba(0,0,0,0)')
-
-        fig.update_layout(
-            margin=dict(l=20, r=20, t=20, b=20),
-        )
-
-        st.plotly_chart(fig)
-#  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
-    if cable2 == "Pipe Type":
-        ''
-
-
-
-
-    col1, col2, col3 = st.columns([1, 8, 1])
-    with col1:
-        ''
-    with col2:
-        ''
+        'Next enhancements:'
+        '1) Double-check the Instructions.'
+        '3) Option for choosing the number of sheath conductors.'
+        '4) Option for choosing the number of armour conductors.'
+        '5) Design a sanity check for R5>R6.'
+        '6) Design a sanity check for R1>Rcore. ' \
+        'If R1/Rcore is not an integer multiple, should R1 assume the lower or higher ratio?'
+        '7) Double-layered armour.'
 
 
 
 
 
-
-
-
-
-    with col3:
-        ''
 
 #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
 #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
