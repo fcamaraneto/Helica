@@ -404,23 +404,23 @@ with tab1:
         with col2:
             st.write("")
             radius4 = st.number_input('R4 [mm]', format="%.2f", value=3.5, step=.1, min_value=.001)
-            radius5 = st.number_input('R5 [mm]', format="%.2f", value=8.0, step=.1, min_value=.001)
-            radius6 = st.number_input('R6 [mm]', format="%.2f", value=4.2, step=.1, min_value=.001)
+            # radius5 = st.number_input('R5 [mm]', format="%.2f", value=8.0, step=.1, min_value=.001)
+            radius6 = st.number_input('R6 [mm]', format="%.2f", value=8.1, step=.1, min_value=.001)
         with col3:
             st.write("")
-            rc = st.number_input('Rcore [mm]',   format="%.2f", value=0.2, step=.1, min_value=.001)
+            rc = st.number_input('Rcore [mm]', format="%.2f", value=0.2, step=.1, min_value=.001)
             rs = st.number_input('Rsheath [mm]', format="%.2f", value=0.2, step=.1, min_value=.001)
             ra = st.number_input('Rarmour [mm]', format="%.2f", value=0.2, step=.1, min_value=.001)
         with col4:
             st.write("")
-            ns = st.number_input('Nsheath [mm]',   value=40, step=1, min_value=1)
-            na = st.number_input('Narmour [mm]',   value=60, step=1, min_value=1)
+            ns = st.number_input('Nsheath [mm]', value=40, step=1, min_value=1)
+            na = st.number_input('Narmour [mm]', value=100, step=1, min_value=1)
 
+        dlayer = st.checkbox('Double-layered armour')
 
-        theta_s = 360/ns
-        theta_a = 360/na
         outc = radius1
-        na = 60
+        theta_s = 360 / ns
+        theta_a = 360 / na
         theta_a = 360 / na
 
         if (outc == rc):
@@ -445,10 +445,14 @@ with tab1:
             xc[a:b] = [R1c[k] * np.cos(i * (theta_c[k] * np.pi / 180)) for i in range(1, nc[k] + 1)]
             yc[a:b] = [R1c[k] * np.sin(i * (theta_c[k] * np.pi / 180)) for i in range(1, nc[k] + 1)]
 
-        xs = [radius3 * np.cos(i*(theta_s*np.pi/180)) for i in range(0, ns)]
-        ys = [radius3 * np.sin(i*(theta_s*np.pi/180)) for i in range(0, ns)]
-        xa = [radius5 * np.cos(i*(theta_a*np.pi/180)) for i in range(0, na)]
-        ya = [radius5 * np.sin(i*(theta_a*np.pi/180)) for i in range(0, na)]
+        xs = [radius3 * np.cos(i * (theta_s * np.pi / 180)) for i in range(0, ns)]
+        ys = [radius3 * np.sin(i * (theta_s * np.pi / 180)) for i in range(0, ns)]
+
+        # xa = [Xa * np.cos(i*(theta_a*np.pi/180)) for i in range(0, na)]
+        # a = [Ya * np.sin(i*(theta_a*np.pi/180)) for i in range(0, na)]
+        Ra = 2 * (radius4 + 2 * ra)  # + 0.1
+        xa = [Ra * np.cos(i * (theta_a * np.pi / 180)) for i in range(0, na)]
+        ya = [Ra * np.sin(i * (theta_a * np.pi / 180)) for i in range(0, na)]
 
         # PLOT conductors
         fig = go.Figure()
@@ -458,108 +462,109 @@ with tab1:
         # core
         for i in range(len(xc)):
             fig.add_shape(type="circle",
-                          x0=xc[i] - rc, y0=yc[i] - rc, x1=xc[i] + rc, y1=yc[i] + rc,
+                          x0=xc[i] - rc - radius4, y0=yc[i] - rc, x1=xc[i] + rc - radius4, y1=yc[i] + rc,
                           line_color="LightSeaGreen")
         fig.add_shape(type="circle",
-                      x0=-max(xc) - rc, y0=-max(xc) - rc, x1=max(xc) + rc, y1=max(xc) + rc,
+                      x0=-max(xc) - rc - radius4, y0=-max(xc) - rc, x1=max(xc) + rc - radius4, y1=max(xc) + rc,
                       line_color="LightSeaGreen")
         # sheath
         for i in range(ns):
             fig.add_shape(type="circle",
-                          x0= xs[i]-rs, y0= ys[i]-rs, x1= xs[i]+rs, y1= ys[i]+rs,
+                          x0=xs[i] - rs - radius4, y0=ys[i] - rs, x1=xs[i] + rs - radius4, y1=ys[i] + rs,
                           line_color="LightSeaGreen")
         fig.add_shape(type="circle",
-                      x0=-radius3+rs, y0=-radius3+rs, x1=radius3-rs, y1=radius3-rs,
+                      x0=-radius3 + rs - radius4, y0=-radius3 + rs, x1=radius3 - rs - radius4, y1=radius3 - rs,
                       line_color="LightSeaGreen");
         fig.add_shape(type="circle",
-                      x0=-radius3-rs, y0=-radius3-rs, x1=radius3+rs, y1=radius3+rs,
+                      x0=-radius3 - rs - radius4, y0=-radius3 - rs, x1=radius3 + rs - radius4, y1=radius3 + rs,
                       line_color="LightSeaGreen")
         fig.add_shape(type="circle",
-                      x0=-radius4, y0=-radius4, x1=radius4, y1=radius4,
+                      x0=-radius4 - radius4, y0=-radius4, x1=radius4 - radius4, y1=radius4,
                       line_color="LightSeaGreen")
         #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
         # CABLE 2
+        #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
         # core
         for i in range(len(xc)):
             fig.add_shape(type="circle",
-                          x0= xc[i]-rc+2*radius4, y0= yc[i]-rc, x1= xc[i]+rc+2*radius4, y1= yc[i]+rc,
+                          x0=xc[i] - rc + radius4, y0=yc[i] - rc, x1=xc[i] + rc + radius4, y1=yc[i] + rc,
                           line_color="LightSeaGreen")
         fig.add_shape(type="circle",
-                      x0= -max(xc)-rc, y0= -max(xc)-rc, x1= max(xc)+rc, y1= max(xc)+rc,
+                      x0=-max(xc) - rc + radius4, y0=-max(xc) - rc, x1=max(xc) + rc + radius4, y1=max(xc) + rc,
                       line_color="LightSeaGreen")
         # sheath
         for i in range(ns):
             fig.add_shape(type="circle",
-                          x0= xs[i]-rs+2*radius4, y0= ys[i]-rs, x1= xs[i]+rs + 2*radius4, y1= ys[i]+rs,
+                          x0=xs[i] - rs + radius4, y0=ys[i] - rs, x1=xs[i] + rs + radius4, y1=ys[i] + rs,
                           line_color="LightSeaGreen")
         fig.add_shape(type="circle",
-                      x0= -radius3+rs + 2*radius4, y0=-radius3 + rs, x1= radius3-rs + 2*radius4, y1=radius3 - rs,
+                      x0=-radius3 + rs + radius4, y0=-radius3 + rs, x1=radius3 - rs + radius4, y1=radius3 - rs,
                       line_color="LightSeaGreen");
         fig.add_shape(type="circle",
-                      x0=-radius3 - rs + 2*radius4, y0=-radius3 - rs, x1=radius3 + rs + 2*radius4, y1=radius3 + rs,
+                      x0=-radius3 - rs + radius4, y0=-radius3 - rs, x1=radius3 + rs + radius4, y1=radius3 + rs,
                       line_color="LightSeaGreen")
         fig.add_shape(type="circle",
-                      x0=-radius4 + 2*radius4, y0=-radius4, x1=radius4 + 2*radius4, y1=radius4,
+                      x0=-radius4 + radius4, y0=-radius4, x1=radius4 + radius4, y1=radius4,
                       line_color="LightSeaGreen")
         #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
         # CABLE 3
+        #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
         # core
-        Yoffset = radius4 + 2*(radius4 * np.sqrt(3)/6) + 3*rs;
-
-        Xarmour = radius4
-        Yarmour = radius4 - 1.35
+        Yoffset = radius4 + 2 * (radius4 * np.sqrt(3) / 6) + 3 * rs;
 
         for i in range(len(xc)):
             fig.add_shape(type="circle",
-                          x0= xc[i]-rc+1*radius4, y0= yc[i]-rc + Yoffset, x1= xc[i]+rc+1*radius4, y1= yc[i]+rc + Yoffset,
+                          x0=xc[i] - rc, y0=yc[i] - rc + Yoffset, x1=xc[i] + rc, y1=yc[i] + rc + Yoffset,
                           line_color="LightSeaGreen")
         fig.add_shape(type="circle",
-                      x0= -max(xc)-rc + 1*radius4, y0= -max(xc)-rc + Yoffset, x1= max(xc)+rc + 1*radius4, y1= max(xc)+rc + Yoffset,
+                      x0=-max(xc) - rc, y0=-max(xc) - rc + Yoffset, x1=max(xc) + rc, y1=max(xc) + rc + Yoffset,
                       line_color="LightSeaGreen")
         # sheath
         for i in range(ns):
             fig.add_shape(type="circle",
-                          x0= xs[i]-rs + 1*radius4, y0= ys[i]-rs + Yoffset, x1= xs[i]+rs + 1*radius4, y1= ys[i]+rs + Yoffset,
+                          x0=xs[i] - rs, y0=ys[i] - rs + Yoffset, x1=xs[i] + rs, y1=ys[i] + rs + Yoffset,
                           line_color="LightSeaGreen")
         fig.add_shape(type="circle",
-                      x0= -radius3+rs + 1*radius4, y0= -radius3+rs + Yoffset, x1= radius3-rs + 1*radius4, y1= radius3-rs + Yoffset,
+                      x0=-radius3 + rs, y0=-radius3 + rs + Yoffset, x1=radius3 - rs, y1=radius3 - rs + Yoffset,
                       line_color="LightSeaGreen");
         fig.add_shape(type="circle",
-                      x0= -radius3-rs + 1*radius4, y0= -radius3-rs + Yoffset, x1=radius3 + rs + 1*radius4, y1= radius3+rs + Yoffset,
+                      x0=-radius3 - rs, y0=-radius3 - rs + Yoffset, x1=radius3 + rs, y1=radius3 + rs + Yoffset,
                       line_color="LightSeaGreen")
         fig.add_shape(type="circle",
-                      x0=-radius4 + 1*radius4, y0=-radius4 + Yoffset, x1=radius4 + 1*radius4, y1=radius4 + Yoffset,
+                      x0=-radius4, y0=-radius4 + Yoffset, x1=radius4, y1=radius4 + Yoffset,
                       line_color="LightSeaGreen")
 
-
-
+        #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
         # armour
+        #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+        Xa = radius4
+        Ya = 2 * (radius4 * np.sqrt(3)) / 6
+
         for i in range(na):
             fig.add_shape(type="circle",
-                          x0= xa[i]-ra + Xarmour, y0= ya[i]-ra +  + Yarmour, x1= xa[i]+ra + Xarmour, y1= ya[i]+ra + Yarmour,
+                          x0=xa[i] - ra, y0=ya[i] - ra + Ya, x1=xa[i] + ra, y1=ya[i] + ra + Ya,
                           line_color="LightSeaGreen")
-        #fig.add_shape(type="circle",
-        #              x0= -radius5-ra, y0= -radius5-ra, x1= radius5+ra, y1= radius5+ra,
-        #              line_color="LightSeaGreen");
-        #fig.add_shape(type="circle",
-        #              x0= -radius5+ra, y0= -radius5+ra, x1= radius5-ra, y1= radius5-ra,
-        #              line_color="LightSeaGreen");
+        fig.add_shape(type="circle",
+                      x0=-Ra + ra, y0=-Ra + ra + Ya, x1=Ra - ra, y1=Ra - ra + Ya,
+                      line_color="LightSeaGreen");
+        fig.add_shape(type="circle",
+                      x0=-Ra - ra, y0=-Ra - ra + Ya, x1=Ra + ra, y1=Ra + ra + Ya,
+                      line_color="LightSeaGreen");
         # jacket/server
-        #fig.add_shape(type="circle",
-        #              x0= -radius6-ra, y0= -radius6-ra, x1= radius6+ra, y1= radius6+ra,
-        #              line_color="LightSeaGreen");
-
+        fig.add_shape(type="circle",
+                      x0=-radius6 - ra, y0=-radius6 - ra + Ya, x1=radius6 + ra, y1=radius6 + ra + Ya,
+                      line_color="LightSeaGreen");
 
         col1, col2, col3 = st.columns([1, 4, 1])
         with col1:
             ''
         with col2:
             fig.update_layout(width=600, height=600)
-            fig.update_xaxes(range=[-radius6*1.5,radius6*3])
-            fig.update_yaxes(range=[-radius6*1.5, radius6*2.5])
-            #fig.update_xaxes(visible=False, mirror=True, ticks='outside', showline=True, linecolor='black', gridcolor='white')
-            #fig.update_yaxes(visible=False, mirror=True, ticks='outside', showline=True, linecolor='black', gridcolor='white')
-            #fig.update_layout(paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)')
+            fig.update_xaxes(range=[-max(xa) * 1.2, max(xa) * 1.2])
+            fig.update_yaxes(range=[-max(xa) * 1., max(xa) * 1.5])
+            fig.update_xaxes(visible=False, mirror=True, ticks='outside', showline=True, linecolor='black', gridcolor='white')
+            fig.update_yaxes(visible=False, mirror=True, ticks='outside', showline=True, linecolor='black', gridcolor='white')
+            fig.update_layout(paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)')
             fig.update_layout(margin=dict(l=20, r=20, t=20, b=20))
             st.plotly_chart(fig)
         with col3:
@@ -573,6 +578,8 @@ with tab1:
         '6) Design a sanity check for R1>Rcore. ' \
         'If R1/Rcore is not an integer multiple, should R1 assume the lower or higher ratio?'
         '7) Double-layered armour.'
+        '8) Constraint of max Nsheath/Narmour.'
+        '9) Verify definition for R5.'
 
 
 
