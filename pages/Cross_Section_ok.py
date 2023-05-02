@@ -74,7 +74,7 @@ st.sidebar.markdown("HELICA Cable Rating module complies with IEC 60287 and IEC 
 #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
 #                                     CROSS-SECTION
 #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
-st.title("HELICA Current Rating")
+st.title("HELICA Cross-Section")
 st.markdown('The Cable Rating module ... ')
 #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
 tab1, tab2, tab3 = st.tabs(["🖥️ Cable Data", "📊 Cable Rating", "🗂️ Export Results"])
