@@ -192,7 +192,7 @@ with tab1:
             with col1:
                 ''
             with col2:
-                fig.update_layout(width=600, height=600)
+                fig.update_layout(width=400, height=400)
                 fig.update_xaxes(range=[-radius6*1.2,radius6*1.2])
                 fig.update_yaxes(range=[-radius6*1.2, radius6*1.2])
                 fig.update_xaxes(visible=False, mirror=True, ticks='outside', showline=True, linecolor='black', gridcolor='white')
@@ -333,7 +333,7 @@ with tab1:
                 ''
             with col2:
                 fig.update_layout(shapes=shapes)
-                fig.update_layout(width=600, height=600)
+                fig.update_layout(width=400, height=400)
                 fig.update_xaxes(range=[-radius6*1.2,radius6*1.2])
                 fig.update_yaxes(range=[-radius6*1.2, radius6*1.2])
                 fig.update_xaxes(visible=False, mirror=True, ticks='outside', showline=True, linecolor='black', gridcolor='white')
@@ -570,7 +570,7 @@ with tab1:
         with col1:
             ''
         with col2:
-            fig.update_layout(width=600, height=600)
+            fig.update_layout(width=400, height=400)
             fig.update_xaxes(range=[-max(xa) * 1.2, max(xa) * 1.2])
             fig.update_yaxes(range=[-max(xa) * 1., max(xa) * 1.5])
             fig.update_xaxes(visible=False, mirror=True, ticks='outside', showline=True, linecolor='black', gridcolor='white')
