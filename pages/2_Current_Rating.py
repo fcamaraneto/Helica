@@ -201,7 +201,6 @@ url = 'https://store.veracity.com/sesam-cloud-compute'
 if st.button('Veracity by DNV'):
     webbrowser.open_new_tab(url)
 
-image = Image.open("VERACITY_LOGO.png")
 
 
 
