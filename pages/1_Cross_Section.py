@@ -587,7 +587,7 @@ with tab1:
             'SHEATH: For stranded sheath, specify the sheath outer radius R3 and the sheath conductor radius.'
             'ARMOUR: For stranded armour, specify the armour outer radius R5 and the armour conductor radius.'
 
-            col1, col2, col3 = st.columns([1, 4, 1])
+            col1, col2, col3 = st.columns([1, 6, 1])
             with col1:
                 ''
             with col2:
