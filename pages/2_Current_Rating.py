@@ -100,8 +100,8 @@ with tab1:
             S = st.number_input('Cross-section [mm2]', format="%.2f", value=185.00, step=.1, min_value=.001)
         with col2:
             '**TEMPERATURE**'
-            theta_i = st.number_input('Initial Temperature [°C]', format="%.1f", value=40., step=1., min_value=-20.)
-            theta_f = st.number_input('Final Temperature [°C]', format="%.1f", value=90., step=1., min_value=-20.)
+            theta_i = st.number_input('Initial Temperature [°C]', format="%.1f", value= 90., step=1., min_value=-20.)
+            theta_f = st.number_input('Final Temperature [°C]', format="%.1f", value= 250., step=1., min_value=-20.)
         with col3:
             '**SHORT-CIRCUIT TIME**'
             t = st.number_input('t [s]',   format="%.2f", value = 1., step=.1, min_value=1.e-6)
@@ -116,8 +116,9 @@ with tab1:
         with col3:
             st.number_input('Label C ', format="%.1f", value=0., step=.1, min_value=0.)
             #A7 = st.number_input('Thermal resistivity [K.m/W]', format="%.1f", value=1., step=.1, min_value=0.)
+
 #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
-#                                CURRENT RATING - RESULTS
+#                         TAB2 -- CURRENT RATING - RESULTS
 #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
 with tab2:
 
@@ -128,7 +129,7 @@ with tab2:
     rho_cu = 1.7241e-8
     rho_al = 2.8264e-8
 
-    Iad = K_cu*S * np.sqrt((1/t) * np.log((theta_f+beta_cu)/(theta_i+beta_cu)))
+    Iad = K_cu*S * np.sqrt((1/t) * np.log((theta_f+beta_cu)/(theta_i+beta_cu))) * 0.001
 
     st.markdown(' ')
     st.markdown(' ')
@@ -136,9 +137,9 @@ with tab2:
     #'**SHORT-CIRCUIT CURRENT**'
     col1, col2 = st.columns(2)
 
-    col1.metric('ADIABATIC SHORT-CIRCUIT CURRENT', value= float("{:.1f}".format(Iad)))
-    col1.metric('ADIABATIC SHORT-CIRCUIT CURRENT', value= float("{:.1f}".format(Iad/0.7)))
-    col2.metric('MAXIMUM SHORT-CIRCUIT TEMPERATURE', value=theta_f, delta=str(theta_f-theta_i) + str('°C'))
+    col1.metric('ADIABATIC SHORT-CIRCUIT CURRENT (kA)', value= str(float("{:.1f}".format(Iad)))+ str(' kA'))
+    col1.metric('NON-ADIABATIC SHORT-CIRCUIT CURRENT (kA)', value= str(float("{:.1f}".format(Iad/0.7)))+ str(' kA'))
+    col2.metric('MAXIMUM SHORT-CIRCUIT TEMPERATURE', value= str(float("{:.1f}".format(theta_f)))+ str(' °C'), delta= str(theta_f-theta_i) + str('°C'))
     #st.text_area(label="Output Data:", value=100.)
 
 
@@ -146,11 +147,11 @@ with tab2:
 
 
 
+
 #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+#                         TAB3 -- CURRENT RATING - OUTPUT
 #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
-#                                CURRENT RATING - OUTPUT
-#  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
-#  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+
 
 with tab3:
     #st.subheader('Interfacing with circuit solvers')
