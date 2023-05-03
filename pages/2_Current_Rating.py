@@ -81,7 +81,7 @@ tab1, tab2, tab3 = st.tabs(["🖥️ Cable Data", "📊 Cable Rating", "🗂️ 
 
 with tab1:
     study = st.selectbox("Select Study",
-                       options=["Permissible short-circuit current", "Short-circuit temperature"])
+                       options=["Permissible short-circuit current", "Maximum short-circuit temperature"])
 
 
 #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
@@ -141,7 +141,7 @@ with tab1:
     #  2 - SHORT-CIRCUIT TEMPERATURE
     #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
 
-    if study == "Short-circuit temperature":
+    if study == "Maximum short-circuit temperature":
         st.write("")
         st.write("")
 
@@ -193,7 +193,7 @@ with tab2:
         col2.metric('SHORT-CIRCUIT TEMPERATURE', value= str(float("{:.1f}".format(theta_f)))+ str(' °C'),
                     delta= str(theta_f-theta_i) + str('°C'))
 
-    if study == "Short-circuit temperature":
+    if study == "Maximum short-circuit temperature":
         col1, col2, col3 = st.columns(3)
         col1.metric('SHORT-CIRCUIT TEMPERATURE (°C)', value= str(float("{:.1f}".format(theta_max)))+ str(' °C'),
                     delta= str(float("{:.1f}".format(theta_max-theta_i))) + str('°C'))
