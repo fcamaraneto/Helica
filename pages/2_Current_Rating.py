@@ -107,10 +107,15 @@ with tab1:
             t = st.number_input('t [s]',   format="%.2f", value = 1., step=.1, min_value=1.e-6)
 
         st.write("")
-        'Material Properties'
-        col1, col2, col3 = st.columns([1, 1, 1])
+        '**MATERIAL PROPERTIES**'
+        col1, col2, col3 = st.columns(3)
         with col1:
-            A7 = st.number_input('Thermal resistivity [K.m/W]', format="%.1f", value=1., step=.1, min_value=0.)
+            st.number_input('Label A ', format="%.1f", value=0., step=.1, min_value=0.)
+        with col2:
+            st.number_input('Label B ', format="%.1f", value=0., step=.1, min_value=0.)
+        with col3:
+            st.number_input('Label C ', format="%.1f", value=0., step=.1, min_value=0.)
+            #A7 = st.number_input('Thermal resistivity [K.m/W]', format="%.1f", value=1., step=.1, min_value=0.)
 #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
 #                                CURRENT RATING - RESULTS
 #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
@@ -122,17 +127,17 @@ with tab2:
     beta_al = 228
     rho_cu = 1.7241e-8
     rho_al = 2.8264e-8
-    theta_i = 40.
-    theta_f = 90.
 
-    Iad = (K_cu*S/t) * np.log((theta_f+beta_cu)/(theta_i+beta_cu))
+    Iad = K_cu*S * np.sqrt((1/t) * np.log((theta_f+beta_cu)/(theta_i+beta_cu)))
 
     st.markdown(' ')
     st.markdown(' ')
 
     #'**SHORT-CIRCUIT CURRENT**'
     col1, col2 = st.columns(2)
+
     col1.metric('ADIABATIC SHORT-CIRCUIT CURRENT', value= float("{:.1f}".format(Iad)))
+    col1.metric('ADIABATIC SHORT-CIRCUIT CURRENT', value= float("{:.1f}".format(Iad/0.7)))
     col2.metric('MAXIMUM SHORT-CIRCUIT TEMPERATURE', value=theta_f, delta=str(theta_f-theta_i) + str('°C'))
     #st.text_area(label="Output Data:", value=100.)
 
