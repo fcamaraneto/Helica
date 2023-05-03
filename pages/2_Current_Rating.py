@@ -85,7 +85,7 @@ with tab1:
 
 
 #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
-#  1- Single Core (stranded sheath)
+#  1 - PERMISSIBLE SHORT-CIRCUIT CURRENT
 #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
     if study == "Permissible short-circuit current":
         #tubular = st.checkbox('Tubular sheath')
@@ -97,52 +97,113 @@ with tab1:
         with col1:
             '**CONDUCTOR**'
             conductor = st.selectbox("Select Conductor", options=["Copper", "Aluminium"])
-            S = st.number_input('Cross-section [mm2]', format="%.2f", value=185.00, step=.1, min_value=.001)
+            S = st.number_input('Cross-section [mm2]', format="%.2f", value= 185.00, step=.1, min_value= .001)
         with col2:
             '**TEMPERATURE**'
             theta_i = st.number_input('Initial Temperature [°C]', format="%.1f", value= 90., step=1., min_value=-20.)
             theta_f = st.number_input('Final Temperature [°C]', format="%.1f", value= 250., step=1., min_value=-20.)
         with col3:
-            '**SHORT-CIRCUIT TIME**'
-            t = st.number_input('t [s]',   format="%.2f", value = 1., step=.1, min_value=1.e-6)
+            '**SHORT-CIRCUIT**'
+            t = st.number_input('Short-circuit time [s]', format="%.2f", value=1., step=.1, min_value=1.e-6)
+            Icc = st.number_input('Short-circuit current [kA]', format="%.2f", value=20., step=.1, min_value=1.e-6, disabled =True)
 
-        st.write("")
-        '**MATERIAL PROPERTIES**'
-        col1, col2, col3 = st.columns(3)
-        with col1:
-            st.number_input('Label A ', format="%.1f", value=0., step=.1, min_value=0.)
-        with col2:
-            st.number_input('Label B ', format="%.1f", value=0., step=.1, min_value=0.)
-        with col3:
-            st.number_input('Label C ', format="%.1f", value=0., step=.1, min_value=0.)
+        #st.write("")
+        #'**MATERIAL PROPERTIES**'
+        #col1, col2, col3 = st.columns(3)
+        #with col1:
+        #    st.number_input('Label A ', format="%.1f", value=0., step=.1, min_value=0.)
+        #with col2:
+        #    st.number_input('Label B ', format="%.1f", value=0., step=.1, min_value=0.)
+        #with col3:
+        #    st.number_input('Label C ', format="%.1f", value=0., step=.1, min_value=0.)
             #A7 = st.number_input('Thermal resistivity [K.m/W]', format="%.1f", value=1., step=.1, min_value=0.)
+
+        K_cu = 226
+        K_al = 148
+        beta_cu = 234.5
+        beta_al = 228
+        rho_cu = 1.7241e-8
+        rho_al = 2.8264e-8
+
+        Iad = K_cu * S * np.sqrt((1 / t) * np.log((theta_f + beta_cu) / (theta_i + beta_cu))) * 0.001
+
+        st.markdown(' ')
+        st.markdown(' ')
+
+        col1, col2 = st.columns(2)
+        col1.metric('ADIABATIC SHORT-CIRCUIT CURRENT (kA)', value=str(float("{:.2f}".format(Iad))) + str(' kA'))
+        col1.metric('NON-ADIABATIC SHORT-CIRCUIT CURRENT (kA)',
+                    value=str(float("{:.1f}".format(Iad / 0.7))) + str(' kA'))
+        col2.metric('MAXIMUM SHORT-CIRCUIT TEMPERATURE', value=str(float("{:.1f}".format(theta_f))) + str(' °C'),
+                    delta=str(theta_f - theta_i) + str('°C'))
+
+    #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+    #  2 - SHORT-CIRCUIT TEMPERATURE
+    #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+
+    if study == "Short-circuit temperature":
+        st.write("")
+        st.write("")
+
+        col1, col2, col3 = st.columns([1, 1, 1])
+        with col1:
+            '**CONDUCTOR**'
+            conductor = st.selectbox("Select Conductor", options=["Copper", "Aluminium"])
+            S = st.number_input('Cross-section [mm2]', format="%.2f", value=185.00, step=.1, min_value=.001)
+        with col2:
+            '**TEMPERATURE**'
+            theta_i = st.number_input('Initial Temperature [°C]', format="%.1f", value=90., step=1., min_value=-20.)
+            theta_f = st.number_input('Final Temperature [°C]', format="%.1f", value=250., step=1., min_value=-20., disabled =True)
+        with col3:
+            '**SHORT-CIRCUIT**'
+            t = st.number_input('Short-circuit time [s]', format="%.2f", value=1., step=.1, min_value=1.e-6)
+            Isc = st.number_input('Short-circuit current [kA]', format="%.2f", value=26.47, step=.1, min_value=1.e-6)
+
+        K_cu = 226
+        K_al = 148
+        beta_cu = 234.5
+        beta_al = 228
+        rho_cu = 1.7241e-8
+        rho_al = 2.8264e-8
+
+        theta_max = (theta_i+beta_cu) * np.exp( ((1000*Isc)**2)*t/((K_cu*S)**2) )   - beta_cu
+
+        st.markdown(' ')
+        st.markdown(' ')
+        
+        col1, col2, col3 = st.columns(3)
+        col1.metric('MAXIMUM SHORT-CIRCUIT TEMPERATURE (°C)', value= str(float("{:.1f}".format(theta_max)))+ str(' °C'),
+                    delta= str(float("{:.1f}".format(theta_max-theta_i))) + str('°C'))
+        col2.metric('SHORT-CIRCUIT CURRENT (kA)', value= str(float("{:.1f}".format(Isc)))+ str(' kA'))
+        col3.metric('SHORT-CIRCUIT TIME (s)', value= str(float("{:.1f}".format(t)))+ str(' s'))
 
 #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
 #                         TAB2 -- CURRENT RATING - RESULTS
 #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
 with tab2:
 
-    K_cu = 226
-    K_al = 148
-    beta_cu = 234.5
-    beta_al = 228
-    rho_cu = 1.7241e-8
-    rho_al = 2.8264e-8
+    if study == "Permissible short-circuit current":
 
-    Iad = K_cu*S * np.sqrt((1/t) * np.log((theta_f+beta_cu)/(theta_i+beta_cu))) * 0.001
+        st.markdown(' ')
+        st.markdown(' ')
 
-    st.markdown(' ')
-    st.markdown(' ')
+        col1, col2 = st.columns(2)
+        col1.metric('ADIABATIC SHORT-CIRCUIT CURRENT (kA)', value= str(float("{:.2f}".format(Iad)))+ str(' kA'))
+        col1.metric('NON-ADIABATIC SHORT-CIRCUIT CURRENT (kA)', value= str(float("{:.1f}".format(Iad/0.7)))+ str(' kA'))
+        col2.metric('MAXIMUM SHORT-CIRCUIT TEMPERATURE', value= str(float("{:.1f}".format(theta_f)))+ str(' °C'),
+                    delta= str(theta_f-theta_i) + str('°C'))
 
-    #'**SHORT-CIRCUIT CURRENT**'
-    col1, col2 = st.columns(2)
+    if study == "Short-circuit temperature":
+        col1, col2, col3 = st.columns(3)
+        col1.metric('MAXIMUM SHORT-CIRCUIT TEMPERATURE (°C)', value= str(float("{:.1f}".format(theta_max)))+ str(' °C'),
+                    delta= str(float("{:.1f}".format(theta_max-theta_i))) + str('°C'))
+        col2.metric('SHORT-CIRCUIT CURRENT (kA)', value= str(float("{:.1f}".format(Isc)))+ str(' kA'))
+        col3.metric('SHORT-CIRCUIT TIME (s)', value= str(float("{:.1f}".format(t)))+ str(' s'))
 
-    col1.metric('ADIABATIC SHORT-CIRCUIT CURRENT (kA)', value= str(float("{:.1f}".format(Iad)))+ str(' kA'))
-    col1.metric('NON-ADIABATIC SHORT-CIRCUIT CURRENT (kA)', value= str(float("{:.1f}".format(Iad/0.7)))+ str(' kA'))
-    col2.metric('MAXIMUM SHORT-CIRCUIT TEMPERATURE', value= str(float("{:.1f}".format(theta_f)))+ str(' °C'), delta= str(theta_f-theta_i) + str('°C'))
-    #st.text_area(label="Output Data:", value=100.)
-
-
+        #col1.metric('MAXIMUM SHORT-CIRCUIT TEMPERATURE', value=str(float("{:.1f}".format(theta_max))) + str(' °C'),
+         #           delta=str(theta_max - theta_i) + str('°C'))
+        #col1.metric('ADIABATIC SHORT-CIRCUIT CURRENT (kA)', value= str(float("{:.1f}".format(Iad)))+ str(' kA'))
+        #col1.metric('NON-ADIABATIC SHORT-CIRCUIT CURRENT (kA)', value= str(float("{:.1f}".format(Iad/0.7)))+ str(' kA'))
 
 
 
