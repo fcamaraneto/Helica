@@ -170,9 +170,9 @@ with tab1:
 
         st.markdown(' ')
         st.markdown(' ')
-        
+
         col1, col2, col3 = st.columns(3)
-        col1.metric('MAXIMUM SHORT-CIRCUIT TEMPERATURE (°C)', value= str(float("{:.1f}".format(theta_max)))+ str(' °C'),
+        col1.metric('SHORT-CIRCUIT TEMPERATURE (°C)', value= str(float("{:.1f}".format(theta_max)))+ str(' °C'),
                     delta= str(float("{:.1f}".format(theta_max-theta_i))) + str('°C'))
         col2.metric('SHORT-CIRCUIT CURRENT (kA)', value= str(float("{:.1f}".format(Isc)))+ str(' kA'))
         col3.metric('SHORT-CIRCUIT TIME (s)', value= str(float("{:.1f}".format(t)))+ str(' s'))
@@ -190,12 +190,12 @@ with tab2:
         col1, col2 = st.columns(2)
         col1.metric('ADIABATIC SHORT-CIRCUIT CURRENT (kA)', value= str(float("{:.2f}".format(Iad)))+ str(' kA'))
         col1.metric('NON-ADIABATIC SHORT-CIRCUIT CURRENT (kA)', value= str(float("{:.1f}".format(Iad/0.7)))+ str(' kA'))
-        col2.metric('MAXIMUM SHORT-CIRCUIT TEMPERATURE', value= str(float("{:.1f}".format(theta_f)))+ str(' °C'),
+        col2.metric('SHORT-CIRCUIT TEMPERATURE', value= str(float("{:.1f}".format(theta_f)))+ str(' °C'),
                     delta= str(theta_f-theta_i) + str('°C'))
 
     if study == "Short-circuit temperature":
         col1, col2, col3 = st.columns(3)
-        col1.metric('MAXIMUM SHORT-CIRCUIT TEMPERATURE (°C)', value= str(float("{:.1f}".format(theta_max)))+ str(' °C'),
+        col1.metric('SHORT-CIRCUIT TEMPERATURE (°C)', value= str(float("{:.1f}".format(theta_max)))+ str(' °C'),
                     delta= str(float("{:.1f}".format(theta_max-theta_i))) + str('°C'))
         col2.metric('SHORT-CIRCUIT CURRENT (kA)', value= str(float("{:.1f}".format(Isc)))+ str(' kA'))
         col3.metric('SHORT-CIRCUIT TIME (s)', value= str(float("{:.1f}".format(t)))+ str(' s'))
