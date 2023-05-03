@@ -86,7 +86,7 @@ with tab1:
 
 
 #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
-#  1- Single Core (stranded sheath)
+#  1- Single Core 
 #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
     if cable2 == "Single Core":
         tubular = st.checkbox('Tubular sheath', key="disabled")
@@ -104,7 +104,7 @@ with tab1:
                 radius6 = st.number_input('R6 [mm]', format="%.2f", value=4.2, step=.1, min_value=.001)
             with col3:
                 st.write("")
-                rc = st.number_input('Rcore [mm]',   format="%.2f", value=0.2, step=.1, min_value=.001)
+                rc = st.number_input('Rcore [mm]',   format="%.2f", value=0.1, step=.1, min_value=.001)
                 rs = st.number_input('Rsheath [mm]', format="%.2f", value=0.2, step=.1, min_value=.001)
                 ra = st.number_input('Rarmour [mm]', format="%.2f", value=0.2, step=.1, min_value=.001)
             with col4:
@@ -257,7 +257,7 @@ with tab1:
                 radius6 = st.number_input('R6 [mm]', format="%.2f", value=4.2, step=.1, min_value=.001)
             with col3:
                 st.write("")
-                rc = st.number_input('Rcore [mm]',   format="%.2f", value=0.2, step=.1, min_value=.001)
+                rc = st.number_input('Rcore [mm]',   format="%.2f", value=0.1, step=.1, min_value=.001)
                 ra = st.number_input('Rarmour [mm]', format="%.2f", value=0.2, step=.1, min_value=.001)
             with col4:
                 st.write("")
@@ -400,7 +400,7 @@ with tab1:
             radius6 = st.number_input('R6 [mm]', format="%.2f", value=8.1, step=.1, min_value=.001)
         with col3:
             st.write("")
-            rc = st.number_input('Rcore [mm]', format="%.2f", value=0.2, step=.1, min_value=.001)
+            rc = st.number_input('Rcore [mm]', format="%.2f", value=0.1, step=.1, min_value=.001)
             rs = st.number_input('Rsheath [mm]', format="%.2f", value=0.2, step=.1, min_value=.001)
             ra = st.number_input('Rarmour [mm]', format="%.2f", value=0.2, step=.1, min_value=.001)
         with col4:
