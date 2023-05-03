@@ -136,6 +136,25 @@ with tab1:
                     value=str(float("{:.1f}".format(Iad / 0.7))) + str(' kA'))
         col2.metric('SHORT-CIRCUIT TEMPERATURE', value=str(float("{:.1f}".format(theta_f))) + str(' °C'),
                     delta=str(theta_f - theta_i) + str('°C'))
+        ''
+        ''
+        '**SENSITIVE ANALYSIS**'
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            study = st.selectbox("SELECT VARIABLE",
+                             options=["Cross-section", "Initial temperature","Final Temperature",
+                                      "Short-circuit time"])
+        with col2:
+            min = st.number_input(study + ' [min]', format="%.2f", value=1.00, step=1., min_value=.001)
+        with col3:
+            max = st.number_input(study + ' [max]', format="%.2f", value=1.00, step=1., min_value=.001)
+
+
+        df = pd.DataFrame(
+            np.random.randn(10, 5),
+            columns=('Test %d' % i for i in range(5)))
+
+        st.table(df)
 
     #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
     #  2 - SHORT-CIRCUIT TEMPERATURE
@@ -166,7 +185,7 @@ with tab1:
         rho_cu = 1.7241e-8
         rho_al = 2.8264e-8
 
-        theta_max = (theta_i+beta_cu) * np.exp( ((1000*Isc)**2)*t/((K_cu*S)**2) )   - beta_cu
+        theta_max = (theta_i+beta_cu) * np.exp( ((1000*Isc)**2)*t/((K_cu*S)**2) )  - beta_cu
 
         st.markdown(' ')
         st.markdown(' ')
@@ -176,6 +195,15 @@ with tab1:
                     delta= str(float("{:.1f}".format(theta_max-theta_i))) + str('°C'))
         col2.metric('SHORT-CIRCUIT CURRENT (kA)', value= str(float("{:.1f}".format(Isc)))+ str(' kA'))
         col3.metric('SHORT-CIRCUIT TIME (s)', value= str(float("{:.1f}".format(t)))+ str(' s'))
+
+import webbrowser
+url = 'https://store.veracity.com/sesam-cloud-compute'
+if st.button('Veracity by DNV'):
+    webbrowser.open_new_tab(url)
+
+image = Image.open("VERACITY_LOGO.png")
+
+
 
 #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
 #                         TAB2 -- CURRENT RATING - RESULTS
@@ -199,11 +227,6 @@ with tab2:
                     delta= str(float("{:.1f}".format(theta_max-theta_i))) + str('°C'))
         col2.metric('SHORT-CIRCUIT CURRENT (kA)', value= str(float("{:.1f}".format(Isc)))+ str(' kA'))
         col3.metric('SHORT-CIRCUIT TIME (s)', value= str(float("{:.1f}".format(t)))+ str(' s'))
-
-        #col1.metric('MAXIMUM SHORT-CIRCUIT TEMPERATURE', value=str(float("{:.1f}".format(theta_max))) + str(' °C'),
-         #           delta=str(theta_max - theta_i) + str('°C'))
-        #col1.metric('ADIABATIC SHORT-CIRCUIT CURRENT (kA)', value= str(float("{:.1f}".format(Iad)))+ str(' kA'))
-        #col1.metric('(Review) NON-ADIABATIC SHORT-CIRCUIT CURRENT (kA)', value= str(float("{:.1f}".format(Iad/0.7)))+ str(' kA'))
 
 
 
@@ -243,7 +266,6 @@ with tab3:
         data='Universal Cable Constants (UCC) \n\n' + dum,
         file_name='cable_parameters.txt',
         mime='text/csv')
-
 
 
 
