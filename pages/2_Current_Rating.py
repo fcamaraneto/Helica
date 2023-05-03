@@ -132,7 +132,7 @@ with tab1:
 
         col1, col2 = st.columns(2)
         col1.metric('ADIABATIC SHORT-CIRCUIT CURRENT (kA)', value=str(float("{:.2f}".format(Iad))) + str(' kA'))
-        col1.metric('NON-ADIABATIC SHORT-CIRCUIT CURRENT (kA)',
+        col1.metric('Review NON-ADIABATIC SHORT-CIRCUIT CURRENT (kA)',
                     value=str(float("{:.1f}".format(Iad / 0.7))) + str(' kA'))
         col2.metric('SHORT-CIRCUIT TEMPERATURE', value=str(float("{:.1f}".format(theta_f))) + str(' °C'),
                     delta=str(theta_f - theta_i) + str('°C'))
@@ -203,7 +203,7 @@ with tab2:
         #col1.metric('MAXIMUM SHORT-CIRCUIT TEMPERATURE', value=str(float("{:.1f}".format(theta_max))) + str(' °C'),
          #           delta=str(theta_max - theta_i) + str('°C'))
         #col1.metric('ADIABATIC SHORT-CIRCUIT CURRENT (kA)', value= str(float("{:.1f}".format(Iad)))+ str(' kA'))
-        #col1.metric('NON-ADIABATIC SHORT-CIRCUIT CURRENT (kA)', value= str(float("{:.1f}".format(Iad/0.7)))+ str(' kA'))
+        #col1.metric('Review NON-ADIABATIC SHORT-CIRCUIT CURRENT (kA)', value= str(float("{:.1f}".format(Iad/0.7)))+ str(' kA'))
 
 
 
