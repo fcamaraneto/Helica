@@ -67,14 +67,14 @@ st.markdown(
 add_logo()
 #st.sidebar.image('aau_logo.png', width=150)
 
-st.sidebar.markdown("HELICA Cable Rating module complies with IEC 60287 and IEC ... ")
+st.sidebar.markdown("HELICA Cable Rating module complies with IEC 60287 and IEC 60949 ... ")
 
 
 #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
 #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
 #                                     INPUT DATA
 #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
-st.title("HELICA Current Rating")
+st.title("Current Rating")
 st.markdown('The Cable Rating module ... ')
 #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
 tab1, tab2, tab3 = st.tabs(["🖥️ Cable Data", "📊 Cable Rating", "🗂️ Export Results"])
@@ -91,63 +91,50 @@ with tab1:
         #tubular = st.checkbox('Tubular sheath')
 
         st.write("")
+        st.write("")
 
-        col1, col2, col3, col4 = st.columns([1, 1, 1, 1])
+        col1, col2, col3 = st.columns([1, 1, 1])
         with col1:
-            'Cross-section area'
-            area = st.number_input('Area [mm2]', format="%.2f", value=1.00, step=.1, min_value=.001)
+            '**CONDUCTOR**'
+            conductor = st.selectbox("Select Conductor", options=["Copper", "Aluminium"])
+            S = st.number_input('Cross-section [mm2]', format="%.2f", value=185.00, step=.1, min_value=.001)
         with col2:
-            'Temperature'
-            ti = st.number_input('Ti [C]', format="%.1f", value=40., step=1., min_value=1.)
-            tf = st.number_input('Tf [C]', format="%.1f", value=90., step=1., min_value=1.)
+            '**TEMPERATURE**'
+            theta_i = st.number_input('Initial Temperature [°C]', format="%.1f", value=40., step=1., min_value=-20.)
+            theta_f = st.number_input('Final Temperature [°C]', format="%.1f", value=90., step=1., min_value=-20.)
         with col3:
-            'Time'
-            A5 = st.number_input('Tsc [s]',   format="%.2f", value=0.2, step=.1, min_value=.001)
-            A6 = st.number_input('xx [xx]', format="%.2f", value=0.2, step=.1, min_value=.001)
-        with col4:
-            'Material'
-            A7 = st.number_input('xxx [xx]',   value=40, step=1, min_value=1)
-            A8 = st.number_input('xx [xx]',   value=60, step=1, min_value=1)
+            '**SHORT-CIRCUIT TIME**'
+            t = st.number_input('t [s]',   format="%.2f", value = 1., step=.1, min_value=1.e-6)
 
-
-    col1, col2 = st.columns([1, 1])
-    with col1:
-         'Adiabatic short-circuit current:'
-    with col2:
-        st.text_area(label="Output Data:",value=100.)
-
-
-
-        #'Next enhancements:'
-        #'1) Prepare the Instructions.'
-        #'2) .'
-        #'3) .'
-        #'4) .'
-        #'5) .'
-#  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
-
-
-
-
-
-
-
-
-
-
-
-#  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+        st.write("")
+        'Material Properties'
+        col1, col2, col3 = st.columns([1, 1, 1])
+        with col1:
+            A7 = st.number_input('Thermal resistivity [K.m/W]', format="%.1f", value=1., step=.1, min_value=0.)
 #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
 #                                CURRENT RATING - RESULTS
 #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
-#  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
-
-
 with tab2:
 
+    K_cu = 226
+    K_al = 148
+    beta_cu = 234.5
+    beta_al = 228
+    rho_cu = 1.7241e-8
+    rho_al = 2.8264e-8
+    theta_i = 40.
+    theta_f = 90.
+
+    Iad = (K_cu*S/t) * np.log((theta_f+beta_cu)/(theta_i+beta_cu))
+
     st.markdown(' ')
     st.markdown(' ')
-    st.markdown(' ')    
+
+    #'**SHORT-CIRCUIT CURRENT**'
+    col1, col2 = st.columns(2)
+    col1.metric('ADIABATIC SHORT-CIRCUIT CURRENT', value= float("{:.1f}".format(Iad)))
+    col2.metric('MAXIMUM SHORT-CIRCUIT TEMPERATURE', value=theta_f, delta=str(theta_f-theta_i) + str('°C'))
+    #st.text_area(label="Output Data:", value=100.)
 
 
 
