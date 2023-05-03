@@ -100,15 +100,15 @@ tab1, tab2, tab3 = st.tabs(["🖥️ Cable Data", "📊 Cable Parameters", "🗂
 
 with tab1:
     cable = st.selectbox("Select Cable Type",
-                       options=["Single Core", "Three Core", "Pipe Type","Two-wire"])
+                       options=["Single Core", "Three Core", "Pipe Type"])
 
     col1, col2, col3 = st.columns([1, 1, 1])
     with col1:
         ''
     with col2:
-        if cable == "Two-wire":
-            image = Image.open('two_wire.png')
-            st.image(image, caption='Wire Arrangement', width=350)
+        #if cable == "Two-wire":
+        #    image = Image.open('two_wire.png')
+        #    st.image(image, caption='Wire Arrangement', width=350)
         if cable == "Single Core":
             image = Image.open('single_core0.png')
             st.image(image, caption='Cross Section', width=250)
