@@ -139,7 +139,7 @@ with tab1:
         ''
         ''
         '**PARAMETRIC STUDIES**'
-        col1, col2, col3, col4 = st.columns([2,2,2,1])
+        col1, col2, col3, col4 = st.columns([2,2,2,1.5])
         with col1:
             study = st.selectbox("SELECT VARIABLE",
                              options=["Cross-section", "Initial temperature","Final Temperature", "Short-circuit time"])
