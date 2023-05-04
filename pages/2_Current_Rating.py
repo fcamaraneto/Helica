@@ -129,7 +129,7 @@ with tab1:
 
         st.markdown(' ')
         st.markdown(' ')
-
+        # RESULTS
         col1, col2 = st.columns(2)
         col1.metric('ADIABATIC SHORT-CIRCUIT CURRENT (kA)', value=str(float("{:.2f}".format(Iad))) + str(' kA'))
         col1.metric('(Review) NON-ADIABATIC SHORT-CIRCUIT CURRENT (kA)',
@@ -138,28 +138,9 @@ with tab1:
                     delta=str(theta_f - theta_i) + str('°C'))
         ''
         ''
-        '**PARAMETRIC STUDIES**'
-        col1, col2, col3, col4 = st.columns([2,2,2,1.5])
-        with col1:
-            study = st.selectbox("SELECT VARIABLE",
-                             options=["Cross-section", "Initial temperature","Final Temperature", "Short-circuit time"])
-        with col2:
-            min = st.number_input(str.upper(study) + ' [min]', format="%.2f", value=1.00, step=1., min_value=.001)
-        with col3:
-            max = st.number_input(str.upper(study) + ' [max]', format="%.2f", value=1.00, step=1., min_value=.001)
-        with col4:
-            steps = st.number_input('Steps', format="%i", value= 5, step=1, min_value=1)
 
 
 
-        columns = ['Result %d' % i for i in range(3)]
-        index =   ['Case %d' % i for i in range(int(steps))]
-
-        df = pd.DataFrame(
-            np.random.randn(int(steps), 3),
-            columns=columns, index=index)
-
-        st.table(df)
 
     #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
     #  2 - SHORT-CIRCUIT TEMPERATURE
@@ -204,10 +185,10 @@ with tab1:
 
 
 
-import webbrowser
-url = 'https://store.veracity.com/sesam-cloud-compute'
-if st.button('Veracity by DNV'):
-    webbrowser.open_new_tab(url)
+#import webbrowser
+#url = 'https://store.veracity.com/sesam-cloud-compute'
+#if st.button('Veracity by DNV'):
+#    webbrowser.open_new_tab(url)
 
 
 
@@ -218,17 +199,53 @@ if st.button('Veracity by DNV'):
 with tab2:
 
     if study == "Permissible short-circuit current":
-
-        st.markdown(' ')
-        st.markdown(' ')
-
         col1, col2 = st.columns(2)
         col1.metric('ADIABATIC SHORT-CIRCUIT CURRENT (kA)', value= str(float("{:.2f}".format(Iad)))+ str(' kA'))
         col1.metric('NON-ADIABATIC SHORT-CIRCUIT CURRENT (kA)', value= str(float("{:.1f}".format(Iad/0.7)))+ str(' kA'))
         col2.metric('SHORT-CIRCUIT TEMPERATURE', value= str(float("{:.1f}".format(theta_f)))+ str(' °C'),
                     delta= str(theta_f-theta_i) + str('°C'))
+        ''
+        ''
+
+        '**PARAMETRIC STUDY**'
+        col1, col2, col3, col4 = st.columns([2, 2, 2, 1.5])
+        with col1:
+            paramstudy = st.selectbox("SELECT VARIABLE",
+                                 options=["Cross-section", "Initial temperature", "Final Temperature",
+                                          "Short-circuit time"])
+        with col2:
+            min = st.number_input(str.upper(paramstudy) + ' [min]', format="%.2f", value=1.00, step=1., min_value=.001)
+        with col3:
+            max = st.number_input(str.upper(paramstudy) + ' [max]', format="%.2f", value=1.00, step=1., min_value=.001)
+        with col4:
+            steps = st.number_input('STEPS', format="%i", value=5, step=1, min_value=1)
+
+
+        paramOUT = [0 for i in range(int(steps))]
+        if paramstudy == "Cross-section":
+
+            for i in range(int(steps)):
+                paramOUT[i] = 99
+                #paramOUT[i] = K_cu * S * np.sqrt((1 / t) * np.log((theta_f + beta_cu) / (theta_i + beta_cu))) * 0.001
+
+
+        #st.markdown(paramOUT)
+
+        columns = ['Result %d' % i for i in range(1,2)]
+        index = ['Case %d' % i for i in range(1,int(steps)+1)]
+
+        df = pd.DataFrame(S,
+            columns=columns, index=index)
+        st.table(df)
+
+
+
+
+
 
     if study == "Maximum short-circuit temperature":
+        st.markdown(' ')
+        st.markdown(' ')
         col1, col2, col3 = st.columns(3)
         col1.metric('SHORT-CIRCUIT TEMPERATURE (°C)', value= str(float("{:.1f}".format(theta_max)))+ str(' °C'),
                     delta= str(float("{:.1f}".format(theta_max-theta_i))) + str('°C'))
