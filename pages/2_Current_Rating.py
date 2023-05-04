@@ -138,21 +138,26 @@ with tab1:
                     delta=str(theta_f - theta_i) + str('°C'))
         ''
         ''
-        '**SENSITIVE ANALYSIS**'
-        col1, col2, col3 = st.columns(3)
+        '**PARAMETRIC STUDIES**'
+        col1, col2, col3, col4 = st.columns([2,2,2,1])
         with col1:
             study = st.selectbox("SELECT VARIABLE",
-                             options=["Cross-section", "Initial temperature","Final Temperature",
-                                      "Short-circuit time"])
+                             options=["Cross-section", "Initial temperature","Final Temperature", "Short-circuit time"])
         with col2:
-            min = st.number_input(study + ' [min]', format="%.2f", value=1.00, step=1., min_value=.001)
+            min = st.number_input(str.upper(study) + ' [min]', format="%.2f", value=1.00, step=1., min_value=.001)
         with col3:
-            max = st.number_input(study + ' [max]', format="%.2f", value=1.00, step=1., min_value=.001)
+            max = st.number_input(str.upper(study) + ' [max]', format="%.2f", value=1.00, step=1., min_value=.001)
+        with col4:
+            steps = st.number_input('Steps', format="%i", value= 5, step=1, min_value=1)
 
+
+
+        columns = ['Result %d' % i for i in range(3)]
+        index =   ['Case %d' % i for i in range(int(steps))]
 
         df = pd.DataFrame(
-            np.random.randn(10, 5),
-            columns=('Test %d' % i for i in range(5)))
+            np.random.randn(int(steps), 3),
+            columns=columns, index=index)
 
         st.table(df)
 
@@ -195,6 +200,9 @@ with tab1:
                     delta= str(float("{:.1f}".format(theta_max-theta_i))) + str('°C'))
         col2.metric('SHORT-CIRCUIT CURRENT (kA)', value= str(float("{:.1f}".format(Isc)))+ str(' kA'))
         col3.metric('SHORT-CIRCUIT TIME (s)', value= str(float("{:.1f}".format(t)))+ str(' s'))
+
+
+
 
 import webbrowser
 url = 'https://store.veracity.com/sesam-cloud-compute'
@@ -265,6 +273,5 @@ with tab3:
         data='Universal Cable Constants (UCC) \n\n' + dum,
         file_name='cable_parameters.txt',
         mime='text/csv')
-
 
 
