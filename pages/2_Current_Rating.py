@@ -221,24 +221,25 @@ with tab2:
             steps = st.number_input('STEPS', format="%i", value=5, step=1, min_value=1)
 
 
-        paramOUT = [0 for i in range(int(steps))]
+       # paramOUT = [0. for i in range(int(steps))]
+
+        paramOUT = np.zeros(int(steps))
+
         if paramstudy == "Cross-section":
+            delta = (max - min) / steps
+            crossOUT = [min + delta*i for i in range(int(steps))]
 
             for i in range(int(steps)):
-                paramOUT[i] = 99
-                #paramOUT[i] = K_cu * S * np.sqrt((1 / t) * np.log((theta_f + beta_cu) / (theta_i + beta_cu))) * 0.001
-
-
-        #st.markdown(paramOUT)
+                paramOUT[i] = K_cu * (S+delta*i) * np.sqrt((1 / t) * np.log((theta_f + beta_cu) / (theta_i + beta_cu))) * 0.001
 
         columns = ['Result %d' % i for i in range(1,2)]
         index = ['Case %d' % i for i in range(1,int(steps)+1)]
 
-        df = pd.DataFrame(S,
+        df = pd.DataFrame(paramOUT,
             columns=columns, index=index)
         st.table(df)
 
-
+        st.markdown(crossOUT)
 
 
 
