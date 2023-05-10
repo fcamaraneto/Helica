@@ -44,7 +44,7 @@ col1, col2 = st.columns(2)
 
 # Use Streamlit widgets in the first column to get user input for values
 length_unit = col1.selectbox('Choose a length unit:', list(length_units.keys()))
-OD = col1.number_input(f'Enter the value of OD [{length_unit}]:', value=0.01)
+OD = col1.number_input(f'Enter the value of OD [{length_unit}]:', value=0.02)
 t = col1.number_input(f'Enter the value of t [{length_unit}]:', value=0.01)
 
 # Use a Streamlit widget in the second column to get user input for pressure unit
