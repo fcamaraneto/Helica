@@ -282,9 +282,12 @@ with tab1:
     ''
     '**ELECTRICAL PARAMETERS** '
     col1, col2, col3 = st.columns(3)
-    col1.metric("Resistance", value=str(float("{:.4f}".format(1 * Rac))) + str(' Ω/m'))
+    col1.metric("Resistance", value=str(float("{:.4f}".format(1e6*Rac))) + str(' μΩ/m'))
     col2.metric("Capacitance", value=str(float("{:.2f}".format(1e12 * C))) + str(' pF/m'))
     col3.metric("Reactance", value=str(float("{:.2f}".format(1e6 * X))) + str(' μΩ/m'))
+
+
+
 
     #col1.metric("DC resistance of core conductor [90°C]",
     #            value=str(float("{:.4f}".format(0 * Rs0))) + str(' mΩ/m'))
