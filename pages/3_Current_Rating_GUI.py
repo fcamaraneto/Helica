@@ -71,6 +71,8 @@ with tab1:
     log = np.log
     sqrt = np.sqrt
 
+
+
     col1, col2, col3, col4 = st.columns([1, 1, 1, 1])
     with col1:
         input1 = st.number_input('MAX TEMPERATURE', format="%.2f", value=90.00, step=1.)#, min_value=.001)
@@ -355,26 +357,21 @@ with tab2:
 
 
 
+''
+''
+''
+# with st.sidebar.container():
+image1 = Image.open('case0_fig1.jpg')
+image2 = Image.open('case0_fig2.jpg')
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+col1, col2, col3 = st.columns([1, 4, 4])
+with col1: ''
+with col2:
+    st.image(image1, caption='Case 1 - Underground Cable', width=200)
+with col3:
+    ''
+    ''
+    st.image(image2, caption='Case 1 - Cross-Section', width=250)
 
 
 
