@@ -61,7 +61,7 @@ add_logo()
 
 
 
-tab1, tab2 = st.tabs(["🖥️ Cable Data", "📊 Future GUI"])
+tab1, tab2 = st.tabs(["🖥️ Input Data", "📊 Future GUI"])
 
 with tab1:
 
