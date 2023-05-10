@@ -94,17 +94,21 @@ def get_data():
 
 tab1, tab2, tab3 = st.tabs(["🖥️ Cable Data", "📊 Cable Parameters", "🗂️ Export Parameters"])
 
-col1, col2 = st.columns([.5, .5])
-with col1:
-    st.write("")
-    radius1 = st.number_input('Radius 1 [mm]', format="%f", value=10., step=1., min_value=1.)
-    radius2 = st.number_input('Radius 2 [mm]', format="%f", value=10., step=1., min_value=1.)
-    nf = st.number_input('Samples', value=500, step=100, min_value=1)
+
+with tab1:
     
-with col2:
-    st.write("")
-    ssg = st.number_input('Sigma [10^7 S/m]', format="%f", value=5.8, step=1., min_value=1.e-12)
-    dd = st.number_input('Distance (d) [mm]', format="%f", value=25., step=1., min_value= 1.)
+    
+    col1, col2 = st.columns([.5, .5])
+    with col1:
+        st.write("")
+        radius1 = st.number_input('Radius 1 [mm]', format="%f", value=10., step=1., min_value=1.)
+        radius2 = st.number_input('Radius 2 [mm]', format="%f", value=10., step=1., min_value=1.)
+        nf = st.number_input('Samples', value=500, step=100, min_value=1)
+
+    with col2:
+        st.write("")
+        ssg = st.number_input('Sigma [10^7 S/m]', format="%f", value=5.8, step=1., min_value=1.e-12)
+        dd = st.number_input('Distance (d) [mm]', format="%f", value=25., step=1., min_value= 1.)
         
 
 
@@ -113,7 +117,7 @@ with col2:
     #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
     #  PAG 2 -- CABLE PARAMETERS
     #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
-with tab2:
+
 
     st.markdown(' ')
     st.markdown(' ')
