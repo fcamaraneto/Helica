@@ -49,17 +49,16 @@ t = col1.number_input(f'Enter the value of t [{length_unit}]:')
 p_i = col1.number_input('Enter the value of p_i:')
 p_e = col1.number_input('Enter the value of p_e:')
 
-# Use Streamlit widgets in the second column to get user input for units
-pressure_unit_p_i = col2.selectbox('Choose a pressure unit for p_i:', list(pressure_units.keys()))
-pressure_unit_p_e = col2.selectbox('Choose a pressure unit for p_e:', list(pressure_units.keys()))
+# Use a Streamlit widget in the second column to get user input for pressure unit
+pressure_unit = col2.selectbox('Choose a pressure unit for p_i and p_e:', list(pressure_units.keys()))
 
 # Convert length values to mm
 OD_mm = OD * length_units[length_unit]
 t_mm = t * length_units[length_unit]
 
 # Convert pressure values to MPa
-p_i_mpa = p_i * pressure_units[pressure_unit_p_i]
-p_e_mpa = p_e * pressure_units[pressure_unit_p_e]
+p_i_mpa = p_i * pressure_units[pressure_unit]
+p_e_mpa = p_e * pressure_units[pressure_unit]
 p_idwp = p_i_mpa * 1.5
 
 # Call the functions with the user-provided values
