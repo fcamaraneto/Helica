@@ -61,67 +61,9 @@ add_logo()
 
 
 
-tab1, tab2 = st.tabs(["🖥️ Cable Data", "📊 Cable Rating"])
+tab1, tab2 = st.tabs(["🖥️ Cable Data", "📊 Future GUI"])
 
 with tab1:
-
-    '**CABLE DESIGN**'
-    col1, col2, col3, col4 = st.columns([2, 2, 2, 2])
-    with col1:
-        study = st.selectbox("CROSS-SECTION", options=["Single Core", "Three Core", "Bipole"])
-        #conductor = st.selectbox('CONDUCTOR', options=["Copper", "Aluminium", "Other"])
-    with col2:
-        layout = st.selectbox("LAYOUT", options=["Trefoil", "Flat"])
-        #insulation = st.selectbox('INSULATION', options=["XLPE", "PVC", "Other"])
-    with col3:
-        installation = st.selectbox("INSTALLATION", options=["Buried", "Layered", "J-Tube", "Floating"])
-    with col4:
-        freq = st.selectbox("Frequency", options=["50 Hz", "60 Hz", "DC"])
-
-
-    ''
-    ''
-    '**CABLE MATERIALS**'
-    col1, col2, col3, col4 = st.columns([2, 2, 2, 2])
-    with col1:
-        conductor1 = st.selectbox('CONDUCTOR', options=["Copper", "Aluminium", "Other"])
-        insulation1 = st.selectbox('INSULATION1', options=["XLPE", "PVC", "Other"])
-    with col2:
-        conductor2 = st.selectbox('SHEATH', options=["Copper", "Aluminium", "Lead", "Other"])
-        insulation2 = st.selectbox('INSULATION2', options=["XLPE", "PVC", "Other"])
-    with col3:
-        conductor3 = st.selectbox('ARMOUR', options=["Steel1", "Steel2", "Other"])
-        insulation3 = st.selectbox('INSULATION3', options=["XLPE", "PVC", "Other"])
-    with col4:
-        ''#insulation4 = st.selectbox('SERVING', options=["Material1", "Material2", "Other"])
-
-    ''
-    ''
-    '**OPERATING CONDITIONS**'
-    col1, col2, col3, col4 = st.columns([1., 1.25, 1.25, 1])
-    with col1:
-        media = st.selectbox("EXTERNAL MEDIA", options=["Seabed", "Sea", "Soil"])
-    with col2:
-        maxt = st.number_input('MAX. TEMPERATURE [°C]', format="%.2f", value= 99.00, step=.1, min_value= .001)
-    with col3:
-        t1 = st.number_input('AMBIENT TEMPERATURE [°C]', format="%.2f", value=20.00, step=.1, min_value=.001)
-    with col4:
-        ''
-
-
-    ''
-    ''
-    '**THERMAL RESISTANCE**'
-    col1, col2, col3 = st.columns([2, 2, 2])
-    with col1:
-        rt1 = st.number_input('SEABED', format="%.2f", value= 99.00, step=.1, min_value= .001)
-    with col2:
-        rt2 = st.number_input('SEA', format="%.2f", value= 99.00, step=.1, min_value= .001)
-        #insulation1 = st.selectbox('INSULATION', options=["XLPE", "PVC", "Other"])
-    with col3:
-        rt3 = st.number_input('SOIL', format="%.2f", value= 99.00, step=.1, min_value= .001)
-
-with tab2:
 
     # shortcuts
     divide = np.divide
@@ -320,10 +262,7 @@ with tab2:
 
         else:
             break
-
-
-
-
+            #https://www.tutorialspoint.com/python/python_loop_control.htm#:~:text=The%20continue%20statement%20in%20Python,both%20while%20and%20for%20loops.
 
     #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
     ''
@@ -342,14 +281,75 @@ with tab2:
     ''
     ''
     '**ELECTRICAL PARAMETERS** '
-    col1, col2 = st.columns(2)
-    col1.metric("Capacitance", value=str(float("{:.2f}".format(1e12 * C))) + str(' pF/m'))
-    col2.metric("Reactance", value=str(float("{:.2f}".format(1e6 * X))) + str(' μΩ/m'))
+    col1, col2, col3 = st.columns(3)
+    col1.metric("Resistance", value=str(float("{:.4f}".format(1 * Rac))) + str(' Ω/m'))
+    col2.metric("Capacitance", value=str(float("{:.2f}".format(1e12 * C))) + str(' pF/m'))
+    col3.metric("Reactance", value=str(float("{:.2f}".format(1e6 * X))) + str(' μΩ/m'))
 
     #col1.metric("DC resistance of core conductor [90°C]",
     #            value=str(float("{:.4f}".format(0 * Rs0))) + str(' mΩ/m'))
     #col2.metric("AC resistance of core conductor [90°C]", value=str(float("{:.4f}".format(0))) + str(' Km/W'))
 #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+
+
+with tab2:
+
+    '**CABLE DESIGN**'
+    col1, col2, col3, col4 = st.columns([2, 2, 2, 2])
+    with col1:
+        study = st.selectbox("CROSS-SECTION", options=["Single Core", "Three Core", "Bipole"])
+        #conductor = st.selectbox('CONDUCTOR', options=["Copper", "Aluminium", "Other"])
+    with col2:
+        layout = st.selectbox("LAYOUT", options=["Trefoil", "Flat"])
+        #insulation = st.selectbox('INSULATION', options=["XLPE", "PVC", "Other"])
+    with col3:
+        installation = st.selectbox("INSTALLATION", options=["Buried", "Layered", "J-Tube", "Floating"])
+    with col4:
+        freq = st.selectbox("Frequency", options=["50 Hz", "60 Hz", "DC"])
+
+
+    ''
+    ''
+    '**CABLE MATERIALS**'
+    col1, col2, col3, col4 = st.columns([2, 2, 2, 2])
+    with col1:
+        conductor1 = st.selectbox('CONDUCTOR', options=["Copper", "Aluminium", "Other"])
+        insulation1 = st.selectbox('INSULATION1', options=["XLPE", "PVC", "Other"])
+    with col2:
+        conductor2 = st.selectbox('SHEATH', options=["Copper", "Aluminium", "Lead", "Other"])
+        insulation2 = st.selectbox('INSULATION2', options=["XLPE", "PVC", "Other"])
+    with col3:
+        conductor3 = st.selectbox('ARMOUR', options=["Steel1", "Steel2", "Other"])
+        insulation3 = st.selectbox('INSULATION3', options=["XLPE", "PVC", "Other"])
+    with col4:
+        ''#insulation4 = st.selectbox('SERVING', options=["Material1", "Material2", "Other"])
+
+    ''
+    ''
+    '**OPERATING CONDITIONS**'
+    col1, col2, col3, col4 = st.columns([1., 1.25, 1.25, 1])
+    with col1:
+        media = st.selectbox("EXTERNAL MEDIA", options=["Seabed", "Sea", "Soil"])
+    with col2:
+        maxt = st.number_input('MAX. TEMPERATURE [°C]', format="%.2f", value= 99.00, step=.1, min_value= .001)
+    with col3:
+        t1 = st.number_input('AMBIENT TEMPERATURE [°C]', format="%.2f", value=20.00, step=.1, min_value=.001)
+    with col4:
+        ''
+
+
+    ''
+    ''
+    '**THERMAL RESISTANCE**'
+    col1, col2, col3 = st.columns([2, 2, 2])
+    with col1:
+        rt1 = st.number_input('SEABED', format="%.2f", value= 99.00, step=.1, min_value= .001)
+    with col2:
+        rt2 = st.number_input('SEA', format="%.2f", value= 99.00, step=.1, min_value= .001)
+        #insulation1 = st.selectbox('INSULATION', options=["XLPE", "PVC", "Other"])
+    with col3:
+        rt3 = st.number_input('SOIL', format="%.2f", value= 99.00, step=.1, min_value= .001)
+
 
 
 
