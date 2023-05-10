@@ -92,7 +92,7 @@ st.markdown('The Universal Cable Constants (UCC) aims at providing a computation
 def get_data():
     return pd.DataFrame(np.random.randn(30, 3), columns=["Single_Core", "b", "c"])
 
-tab1, tab2, tab3 = st.tabs(["🖥️ Cable Data", "📊 Cable Parameters", "🗂️ Export Parameters"])
+tab1, tab2 = st.tabs(["📊 Cable Parameters", "🗂️ Export Parameters"])
 
 
 with tab1:
@@ -138,7 +138,7 @@ with tab1:
     #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
     #  PAG 2 -- CABLE PARAMETERS
     #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
-with tab2:
+
 
     st.markdown(' ')
     st.markdown(' ')
@@ -369,7 +369,7 @@ with tab2:
     st.plotly_chart(fig3, use_container_width=False)
 
 
-with tab3:
+with tab2:
     st.subheader('Interfacing with circuit solvers')
     st.markdown(' Interfacing with circuit solvers contains matlab scripts which demonstrate'
             ' how to interface rational function-based models with time domain circuit solvers '
