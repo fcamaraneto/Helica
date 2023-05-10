@@ -96,45 +96,13 @@ tab1, tab2 = st.tabs(["📊 Cable Parameters", "🗂️ Export Parameters"])
 
 
 with tab1:
-    cable = st.selectbox("Select Cable Type",
-                       options=["Single Core", "Three Core", "Pipe Type","Two-wire"])
-
-    col1, col2, col3 = st.columns([1, 1, 1])
-    with col1:
-        ''
-    with col2:
-        if cable == "Two-wire":
-            image = Image.open('two_wire.png')
-            st.image(image, caption='Wire Arrangement', width=350)
-        if cable == "Single Core":
-            image = Image.open('single_core0.png')
-            st.image(image, caption='Cross Section', width=250)
-        if cable == "Three Core":
-            image = Image.open('three_core0.png')
-            st.image(image, caption='Cross Section', width=250)
-        if cable == "Pipe Type":
-            image = Image.open('pipe_type0.png')
-            st.image(image, caption='Cross Section', width=250)
-    with col3:
-        ''
-
-
-    col1, col2 = st.columns([.5, .5])
-    with col1:
-        st.write("")
-        radius1 = st.number_input('Radius 1 [mm]', format="%f", value=10., step=1., min_value=1.)
-        radius2 = st.number_input('Radius 2 [mm]', format="%f", value=10., step=1., min_value=1.)
-        nf = st.number_input('Samples', value=500, step=100, min_value=1)
-
-    with col2:
-        st.write("")
-        ssg = st.number_input('Sigma [10^7 S/m]', format="%f", value=5.8, step=1., min_value=1.e-12)
-        dd = st.number_input('Distance (d) [mm]', format="%f", value=25., step=1., min_value= 1.)
-        
-
-
-
-
+    
+    radius1 = 10
+    radius2 = 20
+    nf = 500
+    ssg = 5.8 
+    dd = 25
+    
     #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
     #  PAG 2 -- CABLE PARAMETERS
     #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
