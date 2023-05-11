@@ -296,8 +296,25 @@ with tab1:
     col2.metric("Capacitance", value=str(float("{:.2f}".format(1e12 * C))) + str(' pF/m'))
     col3.metric("Reactance", value=str(float("{:.2f}".format(1e6 * X))) + str(' μΩ/m'))
 
+    ''
+    ''
+    ''
+    # with st.sidebar.container():
+    image1 = Image.open('case0_fig1.jpg')
+    image2 = Image.open('case0_fig2.jpg')
+    image3 = Image.open('cigre_TB880.png')
 
+    col1, col2, col3 = st.columns([1, 1, 1])
+    with col1:
+        st.image(image3, caption='Source ', width=200)
+    with col2:
+        st.image(image1, caption='Case 1 - Underground Cable', width=175)
+    with col3:
+        ''
+        ''
+        st.image(image2, caption='Case 1 - Cross-Section', width=250)
 
+        
 
     #col1.metric("DC resistance of core conductor [90°C]",
     #            value=str(float("{:.4f}".format(0 * Rs0))) + str(' mΩ/m'))
@@ -365,21 +382,7 @@ with tab2:
 
 
 
-''
-''
-''
-# with st.sidebar.container():
-image1 = Image.open('case0_fig1.jpg')
-image2 = Image.open('case0_fig2.jpg')
 
-col1, col2, col3 = st.columns([1, 4, 4])
-with col1: ''
-with col2:
-    st.image(image1, caption='Case 1 - Underground Cable', width=175)
-with col3:
-    ''
-    ''
-    st.image(image2, caption='Case 1 - Cross-Section', width=250)
 
 
 
