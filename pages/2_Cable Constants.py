@@ -353,7 +353,7 @@ with tab1:
     st.plotly_chart(fig3, use_container_width=False)
 
 
-with tab3:
+with tab2:
     st.subheader('Interfacing with circuit solvers')
     st.markdown(' Interfacing with circuit solvers contains matlab scripts which demonstrate'
             ' how to interface rational function-based models with time domain circuit solvers '
