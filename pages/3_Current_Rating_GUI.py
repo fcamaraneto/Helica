@@ -82,8 +82,12 @@ with tab1:
     with col4: ''
 
 
-    #'**RESULTS INDEPENDENT OF THE TEMPERATURE** '
-    #'**ELECTRICAL PARAMETERS** '
+
+    # - - - - - - - - - -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+    #                       RESULTS INDEPENDENT OF THE TEMPERATURE
+    # - - - - - - - - - -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+
+
     # - - - Capacitance -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
     # only consider the dielectric only when the values of the diameters are selected (semi-conducting layers or tapes excluded).
     epislon = 2.5
@@ -98,14 +102,13 @@ with tab1:
     X = 2 * omega * np.log(divide(2 * S, d)) * 1e-7
 
 
-
-
     # - - - Electrical resistance of the metal sheath at 20°C -  -  -  -  -  -  -  -  -  -  -  -
     d = 67.7e-3
     ts = 0.8e-3
     As = np.pi * d * ts
     rho_20 = 2.84e-8
     Rs0 = rho_20 / As
+
     # - - - Thermal resistance between conductor and sheath -  -  -  -  -  -  -  -  -  -  -  -
     def rho_T1(t1, dc, rhoT):
         out = np.zeros(len(t1))
@@ -136,8 +139,7 @@ with tab1:
     u = 2 * L / De
     rho_T4 = divide(1.5, pi) * rhoT4 * (log(2 * u) - 0.630)
 
-    # - - - Dielectric losses
-
+    # - - - Dielectric losses - - -  - - -  - - -  - - -  - - -  - - -  - - -  - - -  - - -
     U = 132e3
     U0 = U / np.sqrt(3)
     tdelta = 0.001
@@ -154,23 +156,27 @@ with tab1:
 
 
 
-    #'**RESULTS DEPENDENT OF THE TEMPERATURE** '
+    #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+    #                     RESULTS DEPENDENT OF THE TEMPERATURE
+    #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+
     theta_c = input1 #theta_c = 90
     theta_s = theta_c - 10
     theta_a = input2 #theta_a = 20
+
     # - - - DC resistance of conductor - - - - - - - - - - - - - - - - - -
     R0_c = 28.3e-6
     alpha20_c = 3.93e-3
     Rdc = R0_c * (1 + alpha20_c * (theta_c - 20))
 
-    # - - - # Skin effect factor
+    # - - - # Skin effect factor - - -  - - -  - - -  - - -  - - -  - - -
     ks = 1
     xs2 = (8 * pi * f / Rdc) * 1e-7
     xs = sqrt(xs2)
     # for 0 < xs <= 2.8:
     ys = divide(xs2 ** 2, 192 + 0.8 * xs2 ** 2)
 
-    # - - - Proximity effect factor
+    # - - - Proximity effect factor - - -  - - -  - - -  - - -  - - -  - - -
     kp = 1
     dc_c = 30.3e-3
 
@@ -185,12 +191,14 @@ with tab1:
     # - - - AC resistance of conductor
     Rac = Rdc * (1 + ys + yp)
 
+
+
+
     #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
     ##                               ITERATIVE PROCESS
     #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
 
     # Resistance of sheath at operating temperature
-    Rs0 = 1.669128650e-4
     alpha20_s = 4.03e-3
     Rs = Rs0 * (1 + alpha20_s * (theta_s - 20))
 
@@ -202,16 +210,16 @@ with tab1:
 
     ## Permissible current rating
     n = 1  # single-core cable
-    dtheta = 70
+    dtheta = input1-input2
     # unarmoured: λ2 = 0 and T2 = 0
     lambda2 = 0
     T2 = 0
     T3 = rho_T3
     T4 = rho_T4
-
     dum21 = dtheta - Wd * (0.5 * T1 + n * (T2 + T3 + T4))
     dum22 = Rac * T1 + n * Rac * (1 + lambda1) * T2 + n * Rac * (1 + lambda1 + lambda2) * (T3 + T4)
     I = sqrt(divide(dum21, dum22))
+
 
     # Losses in conductor and sheath
     Wc = Rac * I ** 2
@@ -221,7 +229,7 @@ with tab1:
     # Temperature on the oversheath (jacket or external serving)
     theta_j = theta_a + n * (Wc + Ws + Wd) * T4
     theta_s = theta_j + n * (Wc + Ws + Wd) * T3
-    theta_c = input1 #theta_s + n * (Wc + Wd / 2) * T1
+    theta_c = theta_s + n * (Wc + Wd/2) * T1 # input1
 
     errorI = 0.001
     errorT = 0.0001
@@ -254,9 +262,9 @@ with tab1:
             theta_s = theta_j + n * (Wc + Ws + Wd) * T3
             theta_c = theta_s + n * (Wc + Wd / 2) * T1
 
-            delta_I = abs(I - Iguess);  # print(delta_I)
-            delta_Ts = abs(theta_s - Ts_guess);  # print(delta_Ts)
-            delta_Tj = abs(theta_j - Tj_guess);  # print(delta_Tj)
+            delta_I = abs(I - Iguess)
+            delta_Ts = abs(theta_s - Ts_guess)
+            delta_Tj = abs(theta_j - Tj_guess)
 
             Iguess = I
             Ts_guess = theta_s
@@ -367,13 +375,11 @@ image2 = Image.open('case0_fig2.jpg')
 col1, col2, col3 = st.columns([1, 4, 4])
 with col1: ''
 with col2:
-    st.image(image1, caption='Case 1 - Underground Cable', width=200)
+    st.image(image1, caption='Case 1 - Underground Cable', width=175)
 with col3:
     ''
     ''
     st.image(image2, caption='Case 1 - Cross-Section', width=250)
-
-
 
 
 
