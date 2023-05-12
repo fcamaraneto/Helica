@@ -156,8 +156,8 @@ with tab1:
                     delta=str(theta_f - theta_i) + str('°C'))
         ''
         ''
-        st.markdown(eta_cu)
-        st.markdown(eta_cu2)
+        #st.markdown(eta_cu)
+        #st.markdown(eta_cu2)
 
 
 
