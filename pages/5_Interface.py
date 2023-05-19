@@ -88,7 +88,7 @@ tab1, tab2, tab3 = st.tabs(["🖥️ GUI 1", "🖥️ GUI 2", "🖥️ GUI 3"])
 with tab1:
     layer3c = ['Conductor', 'Tape', 'Conductor Screen', 'Insulation', 'Insulation Screen', 'Water blocking', 'Swelling tape', '', '', '']
     layer3s = ['Conductor', 'Sheath Screen', 'Bedding', 'Swelling tape', 'Insulation', 'Insulation Screen', 'Water blocking']
-    layer3a = ['Binding', 'Bedding', 'Conductor', 'Tape', 'Conductor', 'Cover', 'Cover']
+    layer3a = ['Fillers', 'Binding', 'Bedding', 'Conductor', 'Cover', '', '', '']
 
     conductors = ['', 'Copper', 'Lead', 'Steel', 'Aluminum']
     materials = ['', 'Polyethylene', 'XLPE', 'Polypropylene', 'PVC']
@@ -98,24 +98,24 @@ with tab1:
     conductors_sheath = ['Lead', 'Copper', 'Steel', 'Aluminum']
     materials_sheath = ['Polyethylene', 'Polyethylene', 'Polyethylene', 'Polyethylene', 'Polypropylene', '', '', '', '', '', '', '', '']
     conductors_armour = ['Steel', 'Steel', '', '', '']
-    materials_armour = ['Polyethylene', 'Polypropylene', 'Polypropylene', 'Polypropylene', '', '', '', '', '', '', '', '', '']
+    materials_armour = ['Polypropylene', 'Polyethylene', 'Polypropylene', '', 'Polypropylene', '', '', '', '', '', '', '', '']
 
     cols3 = [.7, 1.25, 1, .9, .9]
 
-    core_mm = [30., 30.5, 32.5, 48.5, 50.3, 52.5, 9999., 9999., 9999., 9999., 9999., 9999.]
-    sheath_mm = [57.1, 62.1, 9999., 9999., 9999., 9999., 9999.]
-    armour_mm = [134.9, 135.3, 137.3, 149.3, 9999., 9999., 9999., 9999., 9999.]
+    core_mm = [30., 30.5, 32.5, 48.5, 50.3, 52.5, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001]
+    sheath_mm = [57.1, 62.1, 0.001, 0.001, 0.001, 0.001, 0.001]
+    armour_mm = [134.9, 135.3, 137.3, 149.3, 155.3, 0.001, 0.001, 0.001, 0.001]
 
 
     '**CONDUCTOR**'
     col1, col2, col3, col4, col5  = st.columns(cols3)
     with col1:
         '**DESIGN**'
-        nn3 = st.number_input('Layers----', value=6, min_value=1, max_value=10, step=1)
-        layer = ['' for i in range(0, nn3)]
-        material = ['' for i in range(0, nn3)]
-        rho = ['' for i in range(0, nn3)]
-        text = ['' for i in range(0, nn3)]
+        nc = st.number_input('Layers----', value=6, min_value=1, max_value=10, step=1)
+        layer_c = ['' for i in range(0, nc)]
+        material_c = ['' for i in range(0, nc)]
+        D_c = ['' for i in range(0, nc)]
+        rho_c = ['' for i in range(0, nc)]
         with col2:
             '**LAYER**'
         with col3:
@@ -125,18 +125,18 @@ with tab1:
         with col5:
             '**THERMAL RESIST.**'
 
-        for k in range(0, nn3):
+        for k in range(0, nc):
             with col2:
-                layer[k] = st.selectbox('Layer ' + str(k + 1), layer3c, index=k)
+                layer_c[k] = st.selectbox('Layer ' + str(k + 1), layer3c, index=k)
             with col3:
-                if layer[k] == 'Conductor':
-                    text[k] = st.selectbox(str(layer[k]) + ' Material', conductors_core, index=k)
+                if layer_c[k] == 'Conductor':
+                    material_c[k] = st.selectbox(str(layer_c[k]) + ' Material', conductors_core, index=k)
                 else:
-                    text[k] = st.selectbox(str(layer[k]) + ' Material', materials_core, index=k)
+                    material_c[k] = st.selectbox(str(layer_c[k]) + ' Material', materials_core, index=k)
             with col4:
-                Dcore = st.number_input('D' + str(k+1) + ' ('+str(layer[k])+')', value=core_mm[k], min_value=.001, step=1., format="%.1f")
+                D_c = st.number_input('D' + str(k+1) + ' ('+str(layer_c[k])+')' + ' [mm]', value=core_mm[k], min_value=.001, step=1., format="%.1f")
             with col5:
-                rho[k] = st.number_input('T'+str(k+1)+ ' [K.m/W]', value=1., min_value=0.001, step=1., format="%.1f")
+                rho_c[k] = st.number_input('T'+str(k+1)+ ' [K.m/W]', value=1., min_value=0.001, step=1., format="%.1f")
 
     ''
     ''
@@ -144,10 +144,11 @@ with tab1:
     col1, col2, col3, col4, col5 = st.columns(cols3)
     with col1:
         '**DESIGN**'
-        nn4 = st.number_input('Layers-----', value=2, min_value=1, max_value=10, step=1)
-        material = ['' for i in range(0, nn4)]
-        rho = ['' for i in range(0, nn4)]
-        text = ['' for i in range(0, nn4)]
+        ns = st.number_input('Layers-----', value=2, min_value=1, max_value=10, step=1)
+        layer_s = ['' for i in range(0, ns)]
+        material_s = ['' for i in range(0, ns)]
+        D_s = ['' for i in range(0, ns)]
+        rho_s = ['' for i in range(0, ns)]
         with col2:
             '**LAYER**'
         with col3:
@@ -157,18 +158,18 @@ with tab1:
         with col5:
             '**THERMAL RESIST.**'
 
-        for k in range(0, nn4):
+        for k in range(0, ns):
             with col2:
-                layer[k] = st.selectbox('Layer ' + str(nn3 + k + 1), layer3s, index=k)
+                layer_s[k] = st.selectbox('Layer ' + str(nc + k + 1), layer3s, index=k)
             with col3:
-                if layer[k] == 'Conductor':
-                    text[k] = st.selectbox('Material (Layer ' + str(nn3 + k + 1) + ')', conductors_sheath, index=k)
+                if layer_s[k] == 'Conductor':
+                    material_s[k] = st.selectbox('Material (Layer ' + str(nc + k + 1) + ')', conductors_sheath, index=k)
                 else:
-                    text[k] = st.selectbox('Material (Layer ' + str(nn3 + k + 1) + ')', materials_sheath, index=k)
+                    material_s[k] = st.selectbox('Material (Layer ' + str(nc + k + 1) + ')', materials_sheath, index=k)
             with col4:
-                Dsheath = st.number_input('D' + str(nn3 + k + 1), value=sheath_mm[k], min_value=.001, step=1., format="%.1f")
+                D_s = st.number_input('D' + str(nc + k + 1) + ' [mm]', value=sheath_mm[k], min_value=.001, step=1., format="%.1f")
             with col5:
-                rho[k] = st.number_input('T' + str(nn3 + k + 1) + ' [K.m/W]', value=1., min_value=0.001, step=1.,
+                rho_s[k] = st.number_input('T' + str(nc + k + 1) + ' [K.m/W]', value=1., min_value=0.001, step=1.,
                                          format="%.1f")
 
 
@@ -178,11 +179,12 @@ with tab1:
     col1, col2, col3, col4, col5 = st.columns(cols3)
     with col1:
         '**DESIGN**'
-        nn5 = st.number_input('Layers-a', value=4, min_value=1, max_value=20, step=1)
-        material = ['' for i in range(0, nn5)]
-        rho = ['' for i in range(0, nn5)]
-        text = ['' for i in range(0, nn5)]
-        lay_a = ['' for i in range(0, nn5)]
+        na = st.number_input('Layers-a', value=5, min_value=1, max_value=20, step=1)
+        layer_a = ['' for i in range(0, na)]
+        material_a = ['' for i in range(0, na)]
+        D_a = ['' for i in range(0, na)]
+        rho_a = ['' for i in range(0, na)]
+
         with col2:
             '**LAYER**'
         with col3:
@@ -192,28 +194,28 @@ with tab1:
         with col5:
             '**THERMAL RESIST.**'
 
-        for k in range(0, nn5):
+        for k in range(0, na):
             with col2:
-                lay_a[k] = st.selectbox('Layer ' + str(nn3 + nn4 + k + 1), layer3a, index=k)
+                layer_a[k] = st.selectbox('Layer ' + str(nc + ns + k + 1), layer3a, index=k)
             with col3:
-                if lay_a[k] == 'Conductor':
-                    text[k] = st.selectbox('Material (Layer ' + str(nn3 + nn4 + k + 1) + ')', conductors_armour, index=k)
+                if layer_a[k] == 'Conductor':
+                    material_a[k] = st.selectbox('Material (Layer ' + str(nc + ns + k + 1) + ')', options=['Steel'])#, index=k)
                 else:
-                    text[k] = st.selectbox('Material (Layer ' + str(nn3 + nn4 + k + 1) + ')', materials)#, index=k)
+                    material_a[k] = st.selectbox('Material (Layer ' + str(nc + ns + k + 1) + ')', materials_armour, index=k)
             with col4:
-                Darmour = st.number_input('D' + str(nn3 + nn4 + k + 1), value=armour_mm[k], min_value=.001, step=1., format="%.1f")
+                D_a = st.number_input('D' + str(nc + ns + k + 1) + ' [mm]', value=armour_mm[k], min_value=.001, step=1., format="%.1f")
             with col5:
-                rho[k] = st.number_input('T' + str(nn3 + nn4 + k + 1) + ' [K.m/W]', value=1., min_value=0.001, step=1.,
+                rho_a[k] = st.number_input('T' + str(nc + ns + k + 1) + ' [K.m/W]', value=1., min_value=0.001, step=1.,
                                          format="%.1f")
 
 
 
+
     ''
     ''
-    print(lay_a)
-    print(material)
-    print(rho)
-    print(text)
+    #print(layer_a)
+    #print(material_a)
+    #print(rho_a)
     ''
 
 
