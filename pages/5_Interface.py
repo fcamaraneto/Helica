@@ -100,7 +100,7 @@ with tab1:
     conductors_armour = ['Steel', 'Steel', '', '', '']
     materials_armour = ['Polypropylene', 'Polyethylene', 'Polypropylene', '', 'Polypropylene', '', '', '', '', '', '', '', '']
 
-    cols3 = [.7, 1.25, 1, .9, .9]
+    cols3 = [.7, 1.2, 1, 1, .9]
 
     core_mm = [30., 30.5, 32.5, 48.5, 50.3, 52.5, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001]
     sheath_mm = [57.1, 62.1, 0.001, 0.001, 0.001, 0.001, 0.001]
