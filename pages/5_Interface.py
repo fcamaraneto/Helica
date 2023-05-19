@@ -100,7 +100,7 @@ with tab1:
     conductors_armour = ['Steel', 'Steel', '', '', '']
     materials_armour = ['Polypropylene', 'Polyethylene', 'Polypropylene', '', 'Polypropylene', '', '', '', '', '', '', '', '']
 
-    cols3 = [.7, 1.2, 1, 1, .95]
+    cols3 = [.7, 1.25, 1, .95, .95]
 
     core_mm = [30., 30.5, 32.5, 48.5, 50.3, 52.5, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001]
     sheath_mm = [57.1, 62.1, 0.001, 0.001, 0.001, 0.001, 0.001]
@@ -130,11 +130,12 @@ with tab1:
                 layer_c[k] = st.selectbox('Layer ' + str(k + 1), layer3c, index=k)
             with col3:
                 if layer_c[k] == 'Conductor':
-                    material_c[k] = st.selectbox(str(layer_c[k]) + ' Material', conductors_core, index=k)
+                    material_c[k] = st.selectbox(str(layer_c[k]), conductors_core, index=k)
                 else:
-                    material_c[k] = st.selectbox(str(layer_c[k]) + ' Material', materials_core, index=k)
+                    material_c[k] = st.selectbox(str(layer_c[k]), materials_core, index=k)
             with col4:
-                D_c = st.number_input('D' + str(k+1) + ' ('+str(layer_c[k])+')' + ' [mm]', value=core_mm[k], min_value=.001, step=1., format="%.1f")
+                D_c = st.number_input('D' + str(k+1) + ' [mm]', value=core_mm[k], min_value=.001, step=1., format="%.1f")
+                # + ' ('+str(layer_c[k])+')' + ' [mm]'
             with col5:
                 rho_c[k] = st.number_input('T'+str(k+1)+ ' [K.m/W]', value=1., min_value=0.001, step=1., format="%.1f")
 
