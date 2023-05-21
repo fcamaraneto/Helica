@@ -84,7 +84,7 @@ add_logo()
 st.title("Interface")
 #st.markdown('The Cable Rating module ... ')
 #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
-tab1, tab2, tab3 = st.tabs(["🖥️ Cable Design", "🖥️ Material Propoerties", "🖥️ Results"])
+tab1, tab2, tab3 = st.tabs(["🖥️ Cable Design", "🖥️ Material Data", "🖥️ Electrical Output"])
 
 
 #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
@@ -92,12 +92,16 @@ tab1, tab2, tab3 = st.tabs(["🖥️ Cable Design", "🖥️ Material Propoertie
 #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
 with tab1:
 
-    col1, col2, col3, col4 = st.columns([.75, .75, 1, 1])
+    col0, col1, col2, col3 = st.columns([.75, .75, 1, 1])
+    with col0:
+        '**POWER GRID**'
     with col1:
-        Ux = st.number_input('RATED VOLTAGE [kV]', format="%.1f", value=30., step=10., min_value=0.001)
+        '**RATED VOLTAGE**'
+        Ux = st.number_input('??? [kV]', format="%.1f", value=30., step=10., min_value=0.001)
         U0 = Ux * 1e3 / sqrt(3)
     with col2:
-        freq = st.selectbox("FREQUENCY (Hz)", options=["50 Hz", "60 Hz", "DC"])
+        '**FREQUENCY**'
+        freq = st.selectbox("System Frequency (Hz)", options=["50 Hz", "60 Hz", "DC"])
         if freq == "50 Hz":
             f = 50
         if freq == "60 Hz":
@@ -105,13 +109,29 @@ with tab1:
         if freq == "DC":
             f = 0
         omega = 2 * pi * f
+    line = st.write("-" * 34)  # horizontal separator line
+
+
+
+
+    # '**INSTALLATION CONDITIONS**'
+    col0, col1, col2, col3 = st.columns([1.25, 1.2, 1, 1.])
+    with col0:
+        '**OPERATION CONDITIONS**'
+    with col1:
+        '**INSTALLATION**'
+        x1 = st.selectbox("Installation Method", options=["Seabed", "Underground", "Sea", 'J-Tube'])
+    with col2:
+        '**BURRIAL DEPTH**'
+        x2 = st.number_input('L [m]', format="%.2f", value=1., step=1., min_value=.001)
     with col3:
-        theta = st.number_input('MAXIMUN TEMPERATURE [°C]', format="%.2f", value=90.00, step=1.)
+        '**TEMPERATURE**'
+        x3 = st.number_input('Ambient Temperature [°C]', format="%.2f", value=20., step=.1, min_value=.001)
+        theta = st.number_input('Operation Temperature [°C]', format="%.2f", value=90.00, step=1.)
         input1 = theta
-    with col4:
-        input2 = st.number_input('AMBIENT TEMPERATURE [°C]', format="%.2f", value=20.00, step=1.)
-    ''
-    ''
+        theta_2 = st.number_input('Maximum Temperature [°C]', format="%.2f", value=250.00, step=1.)
+    line = st.write("-" * 34)  # horizontal separator line
+
 
     layer3c = ['Conductor', 'Tape', 'Conductor Screen', 'Insulation', 'Insulation Screen', 'Water blocking', 'Swelling tape', '', '', '']
     layer3s = ['Conductor', 'Sheath Screen', 'Bedding', 'Swelling tape', 'Insulation', 'Insulation Screen', 'Water blocking']
@@ -128,10 +148,10 @@ with tab1:
     materials_armour = ['Polypropylene', 'Polypropylene', 'Polypropylene', '', 'Polypropylene', '', '', '', '', '', '', '', '']
 
 
-    #'**WIRE DATA**'
-    col0, col1, col2, col3, col4 = st.columns([.7, .75, .75, 1, 1])
+    #'**WIRE DIMENSIONS**'
+    col0, col1, col2, col3 = st.columns([1.25, 1, 1, 1])
     with col0:
-        '**WIRE DATA**'
+        '**WIRE DIMENSIONS**'
     with col1:
         '**CONDUCTOR**'
     with col2:
@@ -139,17 +159,15 @@ with tab1:
     with col3:
         '**ARMOUR**'
     with col1:
-        rc = st.number_input('Rcore [mm]', format="%.2f", value=0.2, step=.1, min_value=.001)
+        rc = st.number_input('Radius [mm]', format="%.2f", value=0.2, step=.1, min_value=.001)
     with col2:
-        rs = st.number_input('Rsheath [mm]', format="%.2f", value=0.2, step=.1, min_value=.001)
-        ns = st.number_input('Nsheath [mm]', value=99, step=1, min_value=1)
+        rs = st.number_input('Radius [mm] ', format="%.2f", value=0.2, step=.1, min_value=.001)
+        ns = st.number_input('Wires', value=99, step=1, min_value=1)
     with col3:
-        ra = st.number_input('Rarmour [mm]', format="%.2f", value=0.2, step=.1, min_value=.001)
-        na1 = st.number_input('Narmour [mm]', value=99, step=1, min_value=1)
-        na2 = st.number_input('Narmour [mm] ', value=99, step=1, min_value=1)
-
-    ''
-    ''
+        ra = st.number_input('Radius [mm]  ', format="%.2f", value=0.2, step=.1, min_value=.001)
+        na1 = st.number_input('Wires (Layer 1)', value=99, step=1, min_value=1)
+        na2 = st.number_input('Wires (Layer 2)', value=99, step=1, min_value=1)
+    line = st.write("-" * 34)  # horizontal separator line
 
     core_mm = [30., 30.5, 32.5, 48.5, 50.3, 52.5, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001]
     sheath_mm = [57.1, 62.1, 0.001, 0.001, 0.001, 0.001, 0.001]
@@ -192,9 +210,12 @@ with tab1:
                 # + ' ('+str(layer_c[k])+')' + ' [mm]'
             #with col5:
                 #rho_c[k] = st.number_input('T'+str(k+1)+ ' [K.m/W]', value=1., min_value=0.001, step=1., format="%.1f")
+    #line = st.write("-" * 34)  # horizontal separator line
+    ''
+    ''
 
-    ''
-    ''
+
+
     col0, col1, col2, col3, col4 = st.columns(cols0)
     with col1:
         '**SHEATH**'
@@ -224,10 +245,12 @@ with tab1:
                 D_s[k] = st.number_input('D' + str(nc + k + 1) + ' [mm]', value=sheath_mm[k], min_value=.001, step=1., format="%.1f")
             #with col5:
                 #rho_s[k] = st.number_input('T' + str(nc + k + 1) + ' [K.m/W]', value=1., min_value=0.001, step=1., format="%.1f")
-
-
+    #line = st.write("-" * 34)  # horizontal separator line
     ''
     ''
+
+
+
     col0, col1, col2, col3, col4 = st.columns(cols0)
     with col1:
         '**ARMOUR**'
@@ -258,13 +281,28 @@ with tab1:
                 D_a[k] = st.number_input('D' + str(nc + ns + k + 1) + ' [mm]', value=armour_mm[k], min_value=.001, step=1., format="%.1f")
             #with col5:
             #    rho_a[k] = st.number_input('T' + str(nc + ns + k + 1) + ' [K.m/W]', value=1., min_value=0.001, step=1., format="%.1f")
+    line = st.write("-" * 34)  # horizontal separator line
 
 
-    ''
-    ''
-    dum=D_c+D_s+D_a
-    print(dum)
-    print(len(dum))
+
+    # '**MISCELLANEOUS**'
+    col0, col1, col2, col3 = st.columns([1.25, 1.2, 1, 1.])
+    with col0:
+        '**MISCELLANEOUS**'
+    with col1:
+        mis1 = st.number_input('Lay length [mm]', format="%.0f", value=2152., step=1.)
+    with col2:
+        mis2 = st.number_input('Tan Delta 𝛿', format="%.5f", value=40e-4, step=1.)
+    with col3:
+        mis3 = st.number_input('Tg Delta [', format="%.2f", value=90.00, step=1.)
+        #input1 = theta
+        #theta_2 = st.number_input('Maximum Temperature [°C]', format="%.2f", value=250.00, step=1.)
+    line = st.write("-" * 34)  # horizontal separator line
+
+
+    #dum=D_c+D_s+D_a
+    #print(dum)
+    #print(len(dum))
     #print(layer_a)
     #print(material_a)
     #print(rho_a)
@@ -274,7 +312,8 @@ with tab1:
 #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
 with tab2:
 
-    cols2 = [1, 1, 1, 1.]
+    cols2 = [1, 1, 1, 1, 1.]
+
 
     rho_c_in = [0.001, 6., 2.5, 3.5, 2.5, 12.]
     #Thermal resistivity of semiconducting tapes 𝜌𝑠𝑐_𝑡 = 6 K.m/W
@@ -288,15 +327,46 @@ with tab2:
     #Thermal resistivity of outer covering 𝜌𝑇 = 6 K.m/W
     #Thermal resistivity of the soil 𝜌𝑇 = 0.7 K.m/W
 
+    # '**WIRES**'
+    col0, col1, col2, col3, col4 = st.columns(cols2)
+    with col0:
+        '**WIRES**'
+    with col1:
+        '**CONDUCTOR**'
+        Rdc20_core_in = st.number_input('Rdc at 20°C [10^-3 𝛺/𝑚]', value=0.0283, min_value=1e-8, format="%.4f")
+        Rdc20_core = Rdc20_core_in*1e-3
+        st.number_input('𝜌 at 20°C [10^-8 𝛺/𝑚]', value=0.00001, min_value=1e-8, format="%.2f")
 
-    '**CONDUCTOR**'
-    col1, col2, col3, col4 = st.columns(cols2)
+        𝛼20_core_in = st.number_input('𝛼 at 20°C [10^-3 1/K]', value=3.93, min_value=1e-5, format="%.3f")
+        𝛼20_core = 𝛼20_core_in * 1e-3
+    with col2:
+        '**SHEATH**'
+        Rdc20_sheath_in = st.number_input('Rdc at 20°C [10^-3 𝛺/𝑚] ', value=0.0283, min_value=1e-8, format="%.4f")
+        Rdc20_sheath = Rdc20_sheath_in*1e-3
+        st.number_input('𝜌 at 20°C [10^-8 𝛺/𝑚]', value=21.4, min_value=1e-8, format="%.2f")
+
+        𝛼20_sheath_in = st.number_input('𝛼 at 20°C [10^-3 1/K] ', value=4.00, min_value=1e-5, format="%.3f")
+        𝛼20_sheath = 𝛼20_sheath_in * 1e-3
+    with col3:
+        '**ARMOUR**'
+        Rdc20_armour_in = st.number_input('Rdc at 20°C [10^-3 𝛺/𝑚]  ', value=0.0283, min_value=1e-8, format="%.4f")
+        Rdc20_armour = Rdc20_armour_in*1e-3
+        st.number_input('𝜌 at 20°C [10^-8 𝛺/𝑚]', value=13.8, min_value=1e-8, format="%.2f")
+
+        𝛼20_armour_in = st.number_input('𝛼 at 20°C [10^-3 1/K]  ', value=4.50, min_value=1e-5, format="%.3f")
+        𝛼20_armour = 𝛼20_armour_in * 1e-3
+    line = st.write("-" * 34)  # horizontal separator line
+
+    #'**CONDUCTOR**'
+    col0, col1, col2, col3, col4 = st.columns(cols2)
+    with col0:
+        '**CONDUCTOR**'
     with col1:
         '**LAYER**'
     with col2:
         '**MATERIAL**'
     with col3:
-        '**THERMAL RESISTIVITY**'
+        '**THERMAL RESIST.**'
 
     for k in range(0, nc):
         with col1:
@@ -309,17 +379,19 @@ with tab2:
                 st.number_input('𝜌' + str(k + 1) + ' [K.m/W]', value=rho_c_in[k], min_value=0.00, step=1., format="%.1f", disabled=True)
             else:
                 rho_c[k] = st.number_input('𝜌' + str(k + 1) + ' [K.m/W]', value=rho_c_in[k], min_value=0.00, step=1., format="%.1f")
+    line = st.write("-" * 34)  # horizontal separator line
 
-    ''
-    ''
-    '**SHEATH**'
-    col1, col2, col3, col4 = st.columns(cols2)
+
+    #'**SHEATH**'
+    col0, col1, col2, col3, col4 = st.columns(cols2)
+    with col0:
+        '**SHEATH**'
     with col1:
         '**LAYER**'
     with col2:
         '**MATERIAL**'
     with col3:
-        '**THERMAL RESISTIVITY**'
+        '**THERMAL RESIST.**'
 
     for k in range(0, ns):
         with col1:
@@ -332,17 +404,19 @@ with tab2:
                 st.number_input('𝜌' + str(nc + k + 1) + ' [K.m/W]', value=rho_s_in[k], min_value=0.00, step=1., format="%.1f", disabled=True)
             else:
                 rho_s[k] = st.number_input('𝜌' + str(nc + k + 1) + ' [K.m/W]', value=rho_s_in[k], min_value=0.00, step=1., format="%.1f")
+    line = st.write("-" * 34)  # horizontal separator line
 
-    ''
-    ''
-    '**ARMOUR**'
-    col1, col2, col3, col4 = st.columns(cols2)
+
+    #'**ARMOUR**'
+    col0, col1, col2, col3, col4 = st.columns(cols2)
+    with col0:
+        '**ARMOUR**'
     with col1:
         '**LAYER**'
     with col2:
         '**MATERIAL**'
     with col3:
-        '**THERMAL RESISTIVITY**'
+        '**THERMAL RESIST.**'
 
     for k in range(0, na):
         with col1:
@@ -355,6 +429,7 @@ with tab2:
             else:
                 rho_a[k] = st.number_input('𝜌' + str(nc + ns + k + 1) + ' [K.m/W]', value=rho_a_in[k], min_value=0.00, step=1., format="%.1f")
 
+    line = st.write("-" * 34)  # horizontal separator line
 
 
 
@@ -365,3 +440,9 @@ with tab2:
 #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
 with tab3:
     ''
+    print('teste')
+    #st.divider()
+    line = st.write("-" * 34)  # horizontal separator line.
+
+    line
+    line
