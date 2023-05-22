@@ -97,8 +97,8 @@ with tab1:
         '**POWER GRID**'
     with col1:
         '**RATED VOLTAGE**'
-        Ux = st.number_input('??? [kV]', format="%.1f", value=30., step=10., min_value=0.001)
-        U0 = Ux * 1e3 / sqrt(3)
+        U_temp = st.number_input('??? [kV]', format="%.1f", value=30., step=10., min_value=0.001)
+        U0 = U_temp * 1e3 / sqrt(3)
     with col2:
         '**FREQUENCY**'
         freq = st.selectbox("System Frequency (Hz)", options=["50 Hz", "60 Hz", "DC"])
@@ -115,7 +115,7 @@ with tab1:
 
 
     # '**INSTALLATION CONDITIONS**'
-    col0, col1, col2, col3 = st.columns([1.25, 1.2, 1, 1.])
+    col0, col1, col2, col3 = st.columns([1.25, 1.1, 1, 1.])
     with col0:
         '**OPERATION CONDITIONS**'
     with col1:
@@ -123,13 +123,13 @@ with tab1:
         x1 = st.selectbox("Installation Method", options=["Seabed", "Underground", "Sea", 'J-Tube'])
     with col2:
         '**BURRIAL DEPTH**'
-        x2 = st.number_input('L [m]', format="%.2f", value=1., step=1., min_value=.001)
+        L_temp = st.number_input('L [m]', format="%.2f", value=1., step=1., min_value=.001)
+        L_burrial = L_temp * 1e3
     with col3:
         '**TEMPERATURE**'
-        x3 = st.number_input('Ambient Temperature [°C]', format="%.2f", value=20., step=.1, min_value=.001)
-        theta = st.number_input('Operation Temperature [°C]', format="%.2f", value=90.00, step=1.)
-        input1 = theta
-        theta_2 = st.number_input('Maximum Temperature [°C]', format="%.2f", value=250.00, step=1.)
+        theta_0 = st.number_input('Ambient Temperature [°C]', format="%.1f", value=20., step=.1, min_value=.001)
+        theta_1 = st.number_input('Operation Temperature [°C]', format="%.1f", value=90., step=1.)
+        theta_2 = st.number_input('Maximum Temperature [°C]', format="%.1f", value=250., step=1.)
     line = st.write("-" * 34)  # horizontal separator line
 
 
@@ -177,7 +177,7 @@ with tab1:
     cols1 = [.7, 1, 1, 1]
     cols0 = [.5, .7, 1.1, 1, .8]
 
-    #'**DESIGN**'
+    # DESIGN - CONDUCTOR
     col0, col1, col2, col3, col4  = st.columns(cols0)
     with col0:
         '**DESIGN**'
@@ -215,7 +215,7 @@ with tab1:
     ''
 
 
-
+    # DESIGN - SHEATH
     col0, col1, col2, col3, col4 = st.columns(cols0)
     with col1:
         '**SHEATH**'
@@ -250,7 +250,7 @@ with tab1:
     ''
 
 
-
+    # DESIGN - ARMOUR
     col0, col1, col2, col3, col4 = st.columns(cols0)
     with col1:
         '**ARMOUR**'
@@ -290,11 +290,15 @@ with tab1:
     with col0:
         '**MISCELLANEOUS**'
     with col1:
-        mis1 = st.number_input('Lay length [mm]', format="%.0f", value=2152., step=1.)
+        laylength_temp = st.number_input('Lay length [mm]', format="%.0f", value=2152., step=1.)
+        laylength = laylength_temp * 1e-3
+        #
+        ts_temp = st.number_input('Sheath thickness [mm]', format="%.2f", value=2.3, step=.1)
+        t_sheath = ts_temp * 1e-3
     with col2:
-        mis2 = st.number_input('Tan Delta 𝛿', format="%.5f", value=40e-4, step=1.)
+        tgdelta = st.number_input('Tan Delta 𝛿 (XLPE)', format="%.5f", value=40e-4, step=1.)
     with col3:
-        mis3 = st.number_input('Tg Delta [', format="%.2f", value=90.00, step=1.)
+        epsilon = st.number_input('Permittivity εr (XLPE)', format="%.1f", value=2.5, step=.1)
         #input1 = theta
         #theta_2 = st.number_input('Maximum Temperature [°C]', format="%.2f", value=250.00, step=1.)
     line = st.write("-" * 34)  # horizontal separator line
@@ -311,9 +315,7 @@ with tab1:
 #  INTERFACE 2
 #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
 with tab2:
-
     cols2 = [1, 1, 1, 1, 1.]
-
 
     rho_c_in = [0.001, 6., 2.5, 3.5, 2.5, 12.]
     #Thermal resistivity of semiconducting tapes 𝜌𝑠𝑐_𝑡 = 6 K.m/W
@@ -343,16 +345,16 @@ with tab2:
         '**SHEATH**'
         Rdc20_sheath_in = st.number_input('Rdc at 20°C [10^-3 𝛺/𝑚] ', value=0.0283, min_value=1e-8, format="%.4f")
         Rdc20_sheath = Rdc20_sheath_in*1e-3
-        st.number_input('𝜌 at 20°C [10^-8 𝛺/𝑚]', value=21.4, min_value=1e-8, format="%.2f")
-
+        𝜌20_sheath_in = st.number_input('𝜌 at 20°C [10^-8 𝛺.𝑚]', value=21.4, min_value=1e-8, format="%.2f")
+        𝜌20_sheath = 𝜌20_sheath_in * 1e-8
         𝛼20_sheath_in = st.number_input('𝛼 at 20°C [10^-3 1/K] ', value=4.00, min_value=1e-5, format="%.3f")
         𝛼20_sheath = 𝛼20_sheath_in * 1e-3
     with col3:
         '**ARMOUR**'
         Rdc20_armour_in = st.number_input('Rdc at 20°C [10^-3 𝛺/𝑚]  ', value=0.0283, min_value=1e-8, format="%.4f")
         Rdc20_armour = Rdc20_armour_in*1e-3
-        st.number_input('𝜌 at 20°C [10^-8 𝛺/𝑚]', value=13.8, min_value=1e-8, format="%.2f")
-
+        𝜌20_armour_in = st.number_input('𝜌 at 20°C [10^-8 𝛺.𝑚]', value=13.8, min_value=1e-8, format="%.2f")
+        𝜌20_armour = 𝜌20_armour_in * 1e-8
         𝛼20_armour_in = st.number_input('𝛼 at 20°C [10^-3 1/K]  ', value=4.50, min_value=1e-5, format="%.3f")
         𝛼20_armour = 𝛼20_armour_in * 1e-3
     line = st.write("-" * 34)  # horizontal separator line
@@ -439,10 +441,121 @@ with tab2:
 #  INTERFACE 3
 #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
 with tab3:
-    ''
-    print('teste')
-    #st.divider()
-    line = st.write("-" * 34)  # horizontal separator line.
+    '**PROMPT:**'
 
-    line
-    line
+    #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+    #  CALCULATIONS
+    #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+
+    # Multiplication by 10^ factors
+    D_temp = D_c + D_s + D_a
+    D = [D_temp[i] * 1e-3 for i in range(0, len(D_temp))]
+    print(D_temp)
+
+    dc = D[0]
+    s = D[7]
+    Di = D[3]
+    dc2 = D[2]
+    ds =  D[5]
+
+
+    # 1 -- Calculation of lay-up factor of the core
+    flayup = sqrt(1 + (pi * 1.29 * D[7] / laylength) ** 2)
+    #print(flayup)
+
+    # 2 - Rac: Calculation of Rac at operation temperature (conductor)
+    # 2.1 - DC resistance of conductor
+    Rdc_core = Rdc20_core * (1 + 𝛼20_core * (theta_1 - 20))
+    #print(Rdc)
+    # 2.2 - Skin effect factor
+    ks = 1
+    xs2 = (8 * pi * f / Rdc_core) * 1e-7
+    xs = sqrt(xs2)
+    # for 0 < xs <= 2.8:
+    ys = divide(xs2 ** 2, 192 + 0.8 * xs2 ** 2)
+    #print(xs2)
+    #print(ys)
+    # 2.2 - Proximity effect factor
+    kp = 1
+    xp2 = (8 * pi * f / Rdc_core) * 1e-7 * kp
+    xp = sqrt(xp2)
+    dum1 = divide(xp2 ** 2, 192 + 0.8 * xp2 ** 2) * divide(dc, s) ** 2
+    dum2 = 0.312 * divide(dc, s) ** 2
+    dum3 = divide(1.18, divide(xp2 ** 2, 192 + 0.8 * xp2 ** 2) + 0.27)
+    yp = dum1 * (dum2 + dum3)
+    #print(xp2)
+    #print(yp)
+    # - - - AC resistance of conductor
+    # Note: The impact of armour wires in the conductor losses is taken into consideration
+    # with the factor 1.5 in the equation above. See Section 2.5.4 in the guidance chapter.
+    Rac_core = Rdc_core * (1 + 1.5*(ys + yp))
+    #print(Rac_core)
+
+    # 3 - Calculationn of dielectric losses
+    # 3.1 -  Capacitance (semi-conducting layers or tapes excluded)
+    C_core = divide(epsilon, 18 * log(divide(Di, dc2))) * 1e-9
+    C = C_core * flayup
+    Wd = omega * C * U0 * U0 * tgdelta
+    #print(C)
+    #print(Wd)
+
+    # 4 -- Loss factor for sheath
+    #𝜌20_sheath
+    #𝛼20_sheath
+    # 4.1 - Calculation of cross-sectional area of the sheath
+    As = pi * t_sheath * (ds + t_sheath)
+    #print(As*1e6)
+    # Rac20_sheath -- Electrical resistance of the metal sheath at 20°C
+    # AC Resistance of the screen at 20oC per unit length of 3-core cable is
+    # calculated by taken into consideration the lay-up factor
+    Rac20_sheath = flayup * (𝜌20_sheath/As)
+    #print(Rac20_sheath*1e4)
+    # Operating temperature 𝜃𝑠𝑐 of the screen
+    I = 838.3399739336
+    T1 = 0.3578707848
+    theta_s = theta_1 - (Rac_core * I**2 + 0.5*Wd) * T1
+    print(theta_s)
+    # Lead sheath AC resistance at operating temperature 𝜃𝑠ℎ
+    Rac_sheath = Rac20_sheath * (1 + 𝛼20_sheath * (theta_s - 20))
+    print(Rac_sheath*1e4)
+
+
+
+
+
+
+
+    # -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+    # horizontal separator line
+    st.write("-" * 34)  # horizontal separator line
+    '**REPORT (output results)**'
+    print('- Lay-up factor: ' + str(flayup))
+    print('- Rdc at operating temperature: ' + str(Rdc_core*1e3) + ' m𝛺/m')
+    print('- Rac at operating temperature: ' + str(Rac_core*1e3) + ' m𝛺/m')
+
+    print('- Nominal capacitance per phase: ' + str(C*1e9) + ' pF/m')
+
+    print('- Cable losses:')
+    print('- Dielectric losses per phase: ' + str(Wd) + ' W/m')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
