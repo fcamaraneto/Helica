@@ -92,21 +92,27 @@ tab1, tab2, tab3 = st.tabs(["🖥️ Cable Design", "🖥️ Material Data", "�
 #  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
 with tab1:
 
-    col0, col1, col2, col3 = st.columns([.75, .75, 1, 1])
+    col0, col1, col2, col3 = st.columns([.75, .75, .9, .75])
     with col0:
-        '**POWER GRID**'
+        '**SYSTEM DATA**'
     with col1:
         '**RATED VOLTAGE**'
-        U_temp = st.number_input('??? [kV]', format="%.1f", value=30., step=10., min_value=0.001)
+        U_temp = st.number_input('Design Voltage [kV]', format="%.1f", value=30., step=10., min_value=0.001)
         U0 = U_temp * 1e3 / sqrt(3)
     with col2:
+        '**TYPE OF SYSTEM**'
+        system = st.selectbox("Cable Type", options=["HVAC Three-core", "HVAC Single-Core", "HVDC Single-Core"])
+    with col3:
         '**FREQUENCY**'
-        freq = st.selectbox("System Frequency (Hz)", options=["50 Hz", "60 Hz", "DC"])
+        if system != 'HVDC Single-Core':
+            freq = st.selectbox("System Frequency (Hz)", options=["50 Hz", "60 Hz"])
+        else:
+            freq = st.selectbox("System Frequency (Hz)", options=["0 Hz - DC"])
         if freq == "50 Hz":
             f = 50
         if freq == "60 Hz":
             f = 60
-        if freq == "DC":
+        if freq == "0 Hz - DC":
             f = 0
         omega = 2 * pi * f
     line = st.write("-" * 34)  # horizontal separator line
@@ -120,7 +126,8 @@ with tab1:
         '**OPERATION CONDITIONS**'
     with col1:
         '**INSTALLATION**'
-        x1 = st.selectbox("Installation Method", options=["Seabed", "Underground", "Sea", 'J-Tube'])
+        x1 = st.selectbox("Installation Method", options=["Buried", 'On the Seabed', 'J-Tube'])
+        x2 = st.selectbox("External Media", options=["Seabed", "Sea", 'Air', "Soil"])
     with col2:
         '**BURRIAL DEPTH**'
         L_temp = st.number_input('L [m]', format="%.2f", value=1., step=1., min_value=.001)
@@ -294,7 +301,7 @@ with tab1:
         laylength = laylength_temp * 1e-3
         #
         ts_temp = st.number_input('Sheath thickness [mm]', format="%.2f", value=2.3, step=.1)
-        t_sheath = ts_temp * 1e-3
+        ts_sheath = ts_temp * 1e-3
     with col2:
         tgdelta = st.number_input('Tan Delta 𝛿 (XLPE)', format="%.5f", value=40e-4, step=1.)
     with col3:
@@ -457,6 +464,8 @@ with tab3:
     Di = D[3]
     dc2 = D[2]
     ds =  D[5]
+    Dsh = (D[5]+D[6])/2
+    print(Dsh)
 
 
     # 1 -- Calculation of lay-up factor of the core
@@ -503,7 +512,7 @@ with tab3:
     #𝜌20_sheath
     #𝛼20_sheath
     # 4.1 - Calculation of cross-sectional area of the sheath
-    As = pi * t_sheath * (ds + t_sheath)
+    As = pi * ts_sheath * (ds + ts_sheath)
     #print(As*1e6)
     # Rac20_sheath -- Electrical resistance of the metal sheath at 20°C
     # AC Resistance of the screen at 20oC per unit length of 3-core cable is
@@ -518,6 +527,15 @@ with tab3:
     # Lead sheath AC resistance at operating temperature 𝜃𝑠ℎ
     Rac_sheath = Rac20_sheath * (1 + 𝛼20_sheath * (theta_s - 20))
     print(Rac_sheath*1e4)
+
+    # 4.2 - Calculation of the core reactance
+    Dsh = 52.5e-3
+    d = Dsh + ts_sheath
+    # print(d*1e3)
+    X1c = 2 * omega * log(divide(2 * s, d)) * 1e-7
+    X = flayup * X1c
+    # print(X1c*1e5)
+    # print(X*1e5)
 
 
 
