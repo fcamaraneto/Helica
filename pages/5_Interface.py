@@ -190,7 +190,7 @@ with tab1:
         '**DESIGN**'
     with col1:
         '**CONDUCTOR**'
-        nc = st.number_input('Layers----', value=6, min_value=6, max_value=6, step=1)
+        nc = st.number_input('Layers----', value=6, min_value=1, max_value=16, step=1)
         layer_c = ['' for i in range(0, nc)]
         material_c = ['' for i in range(0, nc)]
         D_c = ['' for i in range(0, nc)]
@@ -226,7 +226,7 @@ with tab1:
     col0, col1, col2, col3, col4 = st.columns(cols0)
     with col1:
         '**SHEATH**'
-        ns = st.number_input('Layers-----', value=2, min_value=2, max_value=2, step=1)
+        ns = st.number_input('Layers-----', value=2, min_value=1, max_value=12, step=1)
         layer_s = ['' for i in range(0, ns)]
         material_s = ['' for i in range(0, ns)]
         D_s = ['' for i in range(0, ns)]
@@ -261,7 +261,7 @@ with tab1:
     col0, col1, col2, col3, col4 = st.columns(cols0)
     with col1:
         '**ARMOUR**'
-        na = st.number_input('Layers-a', value=5, min_value=5, max_value=5, step=1)
+        na = st.number_input('Layers-a', value=5, min_value=1, max_value=15, step=1)
         layer_a = ['' for i in range(0, na)]
         material_a = ['' for i in range(0, na)]
         D_a = ['' for i in range(0, na)]
